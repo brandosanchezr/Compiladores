@@ -4,20 +4,13 @@
  * and open the template in the editor.
  */
 
-
 /**
  *
  * @author Brando Sanchez
  */
+public class AFD extends AFN{
 
-
-public class Compilador {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        
+    public AFD() {
     }
     
 }
