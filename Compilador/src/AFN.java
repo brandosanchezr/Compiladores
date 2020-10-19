@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /*
@@ -95,6 +96,12 @@ public class AFN {
         edosAFN.add(edoInicial);
         
         List<Estado> edosAceptacion = new ArrayList<Estado>();
+        
+        for (Iterator<Estado> iterator = edosAFN.iterator(); iterator.hasNext();) {
+            Estado next = iterator.next();
+            if(next.isEdoFinal())
+                edosAceptacion.add(next);
+        }
         
         return new AFN(0, edoInicial, alfabeto, edosAceptacion, edosAFN);
     }
