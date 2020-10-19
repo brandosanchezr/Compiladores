@@ -77,7 +77,26 @@ public class AFN {
     //Metodos
     
     public AFN crearBasico(Character c){
-        return new AFN();
+        
+        List<Character> alfabeto = new ArrayList<Character>(c);
+        
+        List<Estado> edosAFN = new ArrayList<Estado>();
+        
+        Estado segundoEdo = new Estado(1, null, false, true, 10);
+        edosAFN.add(segundoEdo);
+        
+        Transicion unaTransicion = new Transicion(c);
+        unaTransicion.agregarDestino(segundoEdo);
+        
+        List<Transicion> transiciones = new ArrayList<Transicion>();
+        transiciones.add(unaTransicion);
+        
+        Estado edoInicial = new Estado(0,transiciones,true,false,0);
+        edosAFN.add(edoInicial);
+        
+        List<Estado> edosAceptacion = new ArrayList<Estado>();
+        
+        return new AFN(0, edoInicial, alfabeto, edosAceptacion, edosAFN);
     }
     
     public AFN unir(AFN unAFN){
@@ -129,11 +148,11 @@ public class AFN {
     }
     @Override
     public String toString() { 
-        return String.format("ID: " + id + "\n" +
-                             "Estado inicial: " + edoInicial + "\n" +
-                             "Alfabeto: " + alfabeto + "\n" +
-                             "Estados de aceptacion: " + edosAceptacion + "\n" +
-                             "Estados del ANF: " + edosAFN +"\n" 
+        return String.format("ID AFN: " + id + "\n" +
+                             "Estado inicial: " + edoInicial.toString() + "\n" +
+                             "Alfabeto: " + alfabeto.toString() + "\n" +
+                             "Estados de aceptacion: " + edosAceptacion.toString() + "\n" +
+                             "Estados del ANF: " + edosAFN.toString() +"\n" 
         ); 
     }
     
