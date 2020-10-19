@@ -21,11 +21,7 @@ public class Estado {
     int token; // entero > 0 y solo si es de acceptacion
 
     public Estado() {
-        id = -1;
-        transciciones = new ArrayList<Transicion>();
-        edoInicial = false;
-        edoFinal = false;
-        token = -1;
+      
     }
     
     public Estado(int id, List<Transicion> transiciones, boolean edoInicial, boolean edoFinal, int token){
@@ -79,13 +75,15 @@ public class Estado {
         this.token = token;
     }
     
+    
+    
     @Override
     public String toString() { 
-        return String.format("ID: " + id + "\n" +
-                             "Transiciones: " + transciciones + "\n" +
-                             "Estado inicial: " + edoInicial + "\n" +
-                             "Estado final: " + edoFinal + "\n" +
-                             "Token: " + token +"\n" 
+        return String.format("\n\tID Estado: " + id + "\n" +
+                             "\tTransiciones: " + transciciones + "\n" +
+                             "\tEstado inicial: " + edoInicial + "\n" +
+                             "\tEstado final: " + edoFinal + "\n" +
+                             "\tToken: " + token +"\n" 
         ); 
     }
     

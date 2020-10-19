@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import java.util.Iterator;
   import java.util.List;
 
 /*
@@ -15,18 +16,20 @@ import java.util.ArrayList;
 public class Transicion {
     
     Character simbolo;
-    List<Estado> edosDestinos;
+    List<Estado> edosDestinos = new ArrayList<>();
 
-    public Transicion(char simbolo, List<Estado> edosDestinos) {
+    public Transicion(char simbolo) {
         this.simbolo = simbolo;
-        this.edosDestinos = edosDestinos;
     }
 
     public Transicion() {
-        simbolo = '\0';
-        edosDestinos = new ArrayList<Estado>();
-    }
 
+    }
+    
+    public void agregarDestino(Estado destino){
+        edosDestinos.add(destino);
+    }
+    
     public List<Estado> getEdosDestinos() {
         return edosDestinos;
     }
@@ -42,11 +45,18 @@ public class Transicion {
     public void setSimbolo(char simbolo) {
         this.simbolo = simbolo;
     }
-
+    
+    private List<Integer> getIdEdos(){
+        List<Integer> idEdos = new ArrayList<>();
+        
+        for (Iterator<Estado> iterator = edosDestinos.iterator(); iterator.hasNext();) {
+            idEdos.add( iterator.next().getId() );
+        }
+        return idEdos;
+    } 
     @Override
     public String toString() {
-        return "Simbolo: " + simbolo + "\n" +
-               "Estados Destinos: " + edosDestinos;
+        return "\n\t\tSimbolo: " + simbolo + ", Estados Destinos: " + getIdEdos().toString();
     }
     
     
