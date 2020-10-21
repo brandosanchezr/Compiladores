@@ -110,9 +110,38 @@ public class AFN {
         return new AFN();
     }
     
-    public AFN concatenar(AFN unAFN){
+    public AFN concatenar(AFN unAFN,int idNuevoAFN,int nuevoToken){
+        //se unen los dos alfabetos de los AFN
+        List<Character> nuevoAlfabeto = new ArrayList<Character>(this.getAlfabeto());
+        nuevoAlfabeto.addAll(unAFN.getAlfabeto());
         
-        return new AFN();
+        List<Estado> nuevoEdosAFN = new ArrayList<Estado>();
+        List<Estado> nuevoEdosAceptacion = new ArrayList<Estado>();
+        int i=0;    //contador estados del nuevo automata
+        //agregamos estados del PRIMER AFN
+        for (i=0; i < this.getEdosAFN().size(); i++) {
+            Estado aux = (Estado) this.getEdosAFN().get(i);
+            aux.setId(i);   //cambiamos el id de los estados para el nuevo automata
+            //cuando llega al ultimo, lo concatenamos con el primero del segundo AFN
+            if(i==this.getEdosAFN().size()-1){
+                aux.setEdoFinal(false); //quitamos aceptación al primer automata
+                aux.setTransciciones(unAFN.getEdoInicial().getTransciciones()); //Las transiciónes del segundo serán las del primero
+            }
+            nuevoEdosAFN.add(aux);
+        }
+        //agregamos estados del SEGUNDO AFN
+        for (int j =1;j<unAFN.getEdosAFN().size();j++){
+            Estado aux = (Estado) unAFN.getEdosAFN().get(j);
+            aux.setId(i);
+            //Agregamos estado de aceptación
+            if(aux.isEdoFinal()){
+                aux.setToken(nuevoToken);
+                nuevoEdosAceptacion.add(aux);
+            }
+            nuevoEdosAFN.add(aux);
+            i++;
+        }
+        return new AFN(idNuevoAFN,this.edoInicial,nuevoAlfabeto,nuevoEdosAceptacion,nuevoEdosAFN);
     }
     
     public AFN cerrarTransitiva(){

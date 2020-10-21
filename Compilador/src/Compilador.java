@@ -21,10 +21,15 @@ public class Compilador {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
+        //Automata basico 1
         AFN miAFN = new AFN();
         miAFN = miAFN.crearBasico('c');
-        System.out.println(miAFN);
+        //Automata básico 2
+        AFN miAFN2 = new AFN();
+        miAFN2 = miAFN2.crearBasico('d');
+        //Automata concatenando 1 y 2
+        AFN concatAFN = miAFN.concatenar(miAFN2, 3,20);
+        System.out.println(concatAFN);
     }
     
 }
