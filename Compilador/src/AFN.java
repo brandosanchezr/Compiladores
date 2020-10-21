@@ -84,7 +84,6 @@ public class AFN {
         List<Estado> edosAFN = new ArrayList<Estado>();
         
         Estado segundoEdo = new Estado(1, null, false, true, 10);
-        edosAFN.add(segundoEdo);
         
         Transicion unaTransicion = new Transicion(c);
         unaTransicion.agregarDestino(segundoEdo);
@@ -94,7 +93,8 @@ public class AFN {
         
         Estado edoInicial = new Estado(0,transiciones,true,false,0);
         edosAFN.add(edoInicial);
-        
+        edosAFN.add(segundoEdo);
+     
         List<Estado> edosAceptacion = new ArrayList<Estado>();
         
         for (Iterator<Estado> iterator = edosAFN.iterator(); iterator.hasNext();) {
@@ -111,6 +111,7 @@ public class AFN {
     }
     
     public AFN concatenar(AFN unAFN){
+        
         return new AFN();
     }
     
