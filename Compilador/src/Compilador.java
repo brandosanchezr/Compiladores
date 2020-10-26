@@ -27,9 +27,12 @@ public class Compilador {
         //Automata básico 2
         AFN miAFN2 = new AFN();
         miAFN2 = miAFN2.crearBasico('d');
+        //Automata Unido 1 y 2
+        AFN unidoAFN = miAFN.unir(miAFN2, 4, 30);
         //Automata concatenando 1 y 2
-        AFN concatAFN = miAFN.concatenar(miAFN2, 3,20);
-        System.out.println(concatAFN);
+        //AFN concatAFN = miAFN.concatenar(miAFN2, 3,20);
+        //System.out.println(concatAFN);
+        System.out.println(unidoAFN);
     }
     
 }
