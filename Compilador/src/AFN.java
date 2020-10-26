@@ -106,8 +106,92 @@ public class AFN {
         return new AFN(0, edoInicial, alfabeto, edosAceptacion, edosAFN);
     }
     
-    public AFN unir(AFN unAFN){
-        return new AFN();
+    public AFN unir(AFN unAFN,int idNuevoAFN,int token){
+        List<Character> nuevoAlfabeto = new ArrayList<Character>('ɛ');
+        nuevoAlfabeto.addAll(this.getAlfabeto());
+        nuevoAlfabeto.addAll(unAFN.getAlfabeto());
+        
+        //EPSILON INICIALES
+        Transicion epsilon1 = new Transicion('ɛ');
+        Transicion epsilon2 = new Transicion('ɛ');
+                //Set inicial = false
+        this.getEdoInicial().setEdoInicial(false);
+        unAFN.getEdoInicial().setEdoInicial(false);
+      
+        epsilon1.agregarDestino(this.getEdoInicial());
+        epsilon2.agregarDestino(unAFN.getEdoInicial());
+        List<Transicion> transicionesInic = new ArrayList<Transicion>();
+        transicionesInic.add(epsilon1);
+        transicionesInic.add(epsilon2);
+    
+        Estado nuevoInicial = new Estado(0,transicionesInic,true,false,0);
+        
+        //EPSILON FINALES
+        int numEdos= this.getEdosAFN().size() + unAFN.getEdosAFN().size();
+        Estado nuevoFinal = new Estado (numEdos+1,null,false,true,token);
+        
+        Transicion epsilon3 = new Transicion('ɛ');
+        Transicion epsilon4 = new Transicion('ɛ');
+        
+        epsilon3.agregarDestino(nuevoFinal);
+        epsilon4.agregarDestino(nuevoFinal);
+            //Dos listas, una para cada Estado final de los automatas
+        List<Transicion> transicionesFin1 = new ArrayList<>();
+        List<Transicion> transicionesFin2 = new ArrayList<>();
+        transicionesFin1.add(epsilon3);
+        transicionesFin2.add(epsilon4);
+        
+          
+        List<Estado> nuevoEdosAFN = new ArrayList<>();
+        nuevoEdosAFN.add(nuevoInicial);
+        List<Estado> nuevoAceptacion = new ArrayList<>();
+        nuevoAceptacion.add(nuevoFinal);
+        
+        //Agregamos estados del PRIMER AUTOMATA
+        
+        List<Transicion> auxTransiciones1 = new ArrayList<>();
+        
+        int nuevoId = 1;  //El id = 0 lo tiene el inicial
+        for (int i=0;i < this.getEdosAFN().size();i++){
+            Estado aux = (Estado) this.getEdosAFN().get(i);
+            aux.setId(nuevoId);
+            if(i==this.getEdosAFN().size()-1){
+                aux.setEdoFinal(false);    // Ya no es estado final
+                if(aux.getTransciciones()!=null){
+                    auxTransiciones1 = aux.getTransciciones();
+                    auxTransiciones1.addAll(transicionesFin1);
+                    aux.setTransciciones(auxTransiciones1);
+                }else{
+                    aux.setTransciciones(transicionesFin1);
+                }
+            }
+            nuevoEdosAFN.add(aux);
+            nuevoId++;
+        }
+        
+        // Agregamos estados del SEGUNDO AUTOMATA
+        
+        List<Transicion> auxTransiciones2 = new ArrayList<>();
+        for(int j = 0; j< unAFN.getEdosAFN().size();j++){
+            Estado aux= (Estado) unAFN.getEdosAFN().get(j);
+            aux.setId(nuevoId);
+            if(j==unAFN.getEdosAFN().size()-1){
+                aux.setEdoFinal(false);
+                if(aux.getTransciciones()!=null){
+                    auxTransiciones2 = aux.getTransciciones();
+                    auxTransiciones2.addAll(transicionesFin2);
+                    aux.setTransciciones(auxTransiciones2);
+                }else{
+                        aux.setTransciciones(transicionesFin2);
+                }
+            }
+            nuevoEdosAFN.add(aux);
+            nuevoId++;
+        }
+        nuevoFinal.setEdoFinal(true);
+        nuevoEdosAFN.add(nuevoFinal);
+        
+        return new AFN(idNuevoAFN,nuevoInicial,nuevoAlfabeto,nuevoAceptacion,nuevoEdosAFN);
     }
     
     public AFN concatenar(AFN unAFN,int idNuevoAFN,int nuevoToken){
@@ -117,6 +201,7 @@ public class AFN {
         
         List<Estado> nuevoEdosAFN = new ArrayList<Estado>();
         List<Estado> nuevoEdosAceptacion = new ArrayList<Estado>();
+        List<Transicion> auxTransiciones = new ArrayList<Transicion>();
         int i=0;    //contador estados del nuevo automata
         //agregamos estados del PRIMER AFN
         for (i=0; i < this.getEdosAFN().size(); i++) {
@@ -125,7 +210,13 @@ public class AFN {
             //cuando llega al ultimo, lo concatenamos con el primero del segundo AFN
             if(i==this.getEdosAFN().size()-1){
                 aux.setEdoFinal(false); //quitamos aceptación al primer automata
-                aux.setTransciciones(unAFN.getEdoInicial().getTransciciones()); //Las transiciónes del segundo serán las del primero
+                if(aux.getTransciciones()!=null){
+                    auxTransiciones = aux.getTransciciones();
+                    auxTransiciones.addAll(unAFN.getEdoInicial().getTransciciones());
+                    aux.setTransciciones(auxTransiciones); //Las transiciónes del primero mas las del segundo
+                }else{
+                    aux.setTransciciones(unAFN.getEdoInicial().getTransciciones());
+                }
             }
             nuevoEdosAFN.add(aux);
         }
