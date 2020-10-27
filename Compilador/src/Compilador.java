@@ -25,8 +25,8 @@ public class Compilador {
         AFN miAFN = new AFN();
         miAFN = miAFN.crearBasico('c');
             //Automata básico 2
-        AFN miAFN2 = new AFN();
-        miAFN2 = miAFN2.crearBasico('d');
+        //AFN miAFN2 = new AFN();
+        //miAFN2 = miAFN2.crearBasico('d');
             //Automata Unido 1 y 2
         //AFN unidoAFN = miAFN.unir(miAFN2, 4, 30);
             //Automata concatenando 1 y 2
