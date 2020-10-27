@@ -22,6 +22,7 @@ public class AFN {
     List<Estado> edosAFN;
 
     public AFN() {
+        this.alfabeto = new ArrayList<Character>();
     }
 
     public AFN(int id, Estado edoInicial, List<Character> alfabeto, List<Estado> edosAceptacion, List<Estado> edosAFN) {
@@ -79,7 +80,9 @@ public class AFN {
     
     public AFN crearBasico(Character c){
         
-        List<Character> alfabeto = new ArrayList<Character>(c);
+        if(!this.getAlfabeto().contains(c));
+            this.alfabeto.add(c);
+       
         
         List<Estado> edosAFN = new ArrayList<Estado>();
         
@@ -107,9 +110,12 @@ public class AFN {
     }
     
     public AFN unir(AFN unAFN,int idNuevoAFN,int token){
-        List<Character> nuevoAlfabeto = new ArrayList<Character>('ɛ');
-        nuevoAlfabeto.addAll(this.getAlfabeto());
+        List<Character> nuevoAlfabeto = new ArrayList<Character>();
+        
+        nuevoAlfabeto.add('ɛ');        
+        nuevoAlfabeto.addAll(this.getAlfabeto());        
         nuevoAlfabeto.addAll(unAFN.getAlfabeto());
+
         
         //EPSILON INICIALES
         Transicion epsilon1 = new Transicion('ɛ');
