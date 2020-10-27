@@ -241,8 +241,59 @@ public class AFN {
         return new AFN(idNuevoAFN,this.edoInicial,nuevoAlfabeto,nuevoEdosAceptacion,nuevoEdosAFN);
     }
     
-    public AFN cerrarTransitiva(){
-      return new AFN();  
+    public AFN cerrarTransitiva(int idNuevoAFN, int token){
+      List<Character> nuevoAlfabeto = new ArrayList<>(this.getAlfabeto());
+      nuevoAlfabeto.add('ɛ');
+      nuevoAlfabeto.addAll(this.getAlfabeto());
+      
+      //Epsilon interno Final -> Inicial
+      Transicion epsilon1 = new Transicion('ɛ');
+      epsilon1.agregarDestino(this.getEdoInicial());
+      List<Transicion> interna = new ArrayList<>();
+      interna.add(epsilon1);
+      
+      //Epsilon inicial
+      Transicion epsilon2 = new Transicion('ɛ');
+      epsilon2.agregarDestino(this.getEdoInicial());
+      List<Transicion> inicialTrans = new ArrayList<>();
+      inicialTrans.add(epsilon2);
+      Estado nuevoInicial =new Estado(0,inicialTrans,true,false,0);
+      
+      //Epsilon final
+      Transicion epsilon3 = new Transicion('ɛ');
+      Estado nuevoFinal = new Estado(this.getEdosAFN().size()+1,null,false,true,token);
+      epsilon3.agregarDestino(nuevoFinal);
+      interna.add(epsilon3);
+      
+      //agregamos estados del UNICO AFN
+      List<Estado> nuevoEdosAFN = new ArrayList<>();
+      List<Estado> nuevoEdosAceptacion = new ArrayList<>();
+      List<Transicion> auxTransiciones = new ArrayList<>();
+      nuevoEdosAFN.add(nuevoInicial);
+      int nuevoId = 1;
+      
+      for (int i=0;i < this.getEdosAFN().size();i++){
+            Estado aux = (Estado) this.getEdosAFN().get(i);
+            aux.setId(nuevoId);
+            if(i==this.getEdosAFN().size()-1){
+                aux.setEdoFinal(false);    // Ya no es estado final
+                if(aux.getTransciciones()!=null){
+                    auxTransiciones = aux.getTransciciones();
+                    auxTransiciones.addAll(interna); //Agragar epsilon interno final
+                    aux.setTransciciones(auxTransiciones);
+                }else{
+                    aux.setTransciciones(interna);
+                }
+            }
+            nuevoEdosAFN.add(aux);
+            nuevoId++;
+        }
+      
+      nuevoEdosAFN.add(nuevoFinal);
+      nuevoEdosAceptacion.add(nuevoFinal);
+      this.getEdoInicial().setEdoInicial(false);
+      
+      return new AFN(idNuevoAFN,nuevoInicial,nuevoAlfabeto,nuevoEdosAceptacion,nuevoEdosAFN);  
     }
     
     public AFN cerrarKleen(){

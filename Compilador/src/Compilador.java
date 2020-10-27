@@ -21,21 +21,19 @@ public class Compilador {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        //Automata basico 1
+            //Automata basico 1
         AFN miAFN = new AFN();
         miAFN = miAFN.crearBasico('c');
-        
-        //Automata básico 2
-        AFN miAFN2 = new AFN();
-        miAFN2 = miAFN2.crearBasico('d');
-        
-       
-        //Automata Unido 1 y 2
-        AFN unidoAFN = miAFN.unir(miAFN2, 4, 30);
-        //Automata concatenando 1 y 2
+            //Automata básico 2
+        //AFN miAFN2 = new AFN();
+        //miAFN2 = miAFN2.crearBasico('d');
+            //Automata Unido 1 y 2
+        //AFN unidoAFN = miAFN.unir(miAFN2, 4, 30);
+            //Automata concatenando 1 y 2
         //AFN concatAFN = miAFN.concatenar(miAFN2, 3,20);
-        //System.out.println(concatAFN);
-        System.out.println(unidoAFN);
+            //Automata Cerradura Transitiva
+        AFN transitiva = miAFN.cerrarTransitiva(5, 40);
+        System.out.println(transitiva);
     }
     
 }
