@@ -34,8 +34,10 @@ public class Compilador {
             //Automata Cerradura Transitiva
         //AFN transitiva = miAFN.cerrarTransitiva(5, 40);
             //Automata Cerradura Kleene
-        AFN kleene = miAFN.cerrarKleen(6, 50);
-        System.out.println(kleene);
+        //AFN kleene = miAFN.cerrarKleen(6, 50);
+        //Automata Opcional
+        AFN opcional =  miAFN.opcional(7, 60);
+        System.out.println(opcional);
     }
     
 }
