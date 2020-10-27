@@ -32,8 +32,10 @@ public class Compilador {
             //Automata concatenando 1 y 2
         //AFN concatAFN = miAFN.concatenar(miAFN2, 3,20);
             //Automata Cerradura Transitiva
-        AFN transitiva = miAFN.cerrarTransitiva(5, 40);
-        System.out.println(transitiva);
+        //AFN transitiva = miAFN.cerrarTransitiva(5, 40);
+            //Automata Cerradura Kleene
+        AFN kleene = miAFN.cerrarKleen(6, 50);
+        System.out.println(kleene);
     }
     
 }
