@@ -2,6 +2,8 @@
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Stack;
+import java.util.stream.Collectors;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -112,6 +114,7 @@ public class AFN {
     public AFN unir(AFN unAFN,int idNuevoAFN,int token){
         List<Character> nuevoAlfabeto = new ArrayList<Character>();
         
+        
         nuevoAlfabeto.add('ɛ');        
         nuevoAlfabeto.addAll(this.getAlfabeto());        
         nuevoAlfabeto.addAll(unAFN.getAlfabeto());
@@ -197,6 +200,8 @@ public class AFN {
         nuevoFinal.setEdoFinal(true);
         nuevoEdosAFN.add(nuevoFinal);
         
+        nuevoAlfabeto = nuevoAlfabeto.stream().distinct().collect(Collectors.toList()); 
+        
         return new AFN(idNuevoAFN,nuevoInicial,nuevoAlfabeto,nuevoAceptacion,nuevoEdosAFN);
     }
     
@@ -238,6 +243,9 @@ public class AFN {
             nuevoEdosAFN.add(aux);
             i++;
         }
+        
+        nuevoAlfabeto = nuevoAlfabeto.stream().distinct().collect(Collectors.toList()); 
+        
         return new AFN(idNuevoAFN,this.edoInicial,nuevoAlfabeto,nuevoEdosAceptacion,nuevoEdosAFN);
     }
     
@@ -292,6 +300,8 @@ public class AFN {
       nuevoEdosAFN.add(nuevoFinal);
       nuevoEdosAceptacion.add(nuevoFinal);
       this.getEdoInicial().setEdoInicial(false);
+      
+      nuevoAlfabeto = nuevoAlfabeto.stream().distinct().collect(Collectors.toList()); 
       
       return new AFN(idNuevoAFN,nuevoInicial,nuevoAlfabeto,nuevoEdosAceptacion,nuevoEdosAFN);  
     }
@@ -352,6 +362,9 @@ public class AFN {
       nuevoEdosAFN.add(nuevoFinal);
       nuevoEdosAceptacion.add(nuevoFinal);
       this.getEdoInicial().setEdoInicial(false);
+      
+      nuevoAlfabeto = nuevoAlfabeto.stream().distinct().collect(Collectors.toList()); 
+      
         return new AFN(idNuevoAFN,nuevoInicial,nuevoAlfabeto,nuevoEdosAceptacion,nuevoEdosAFN);
     }
     
@@ -406,26 +419,83 @@ public class AFN {
       nuevoEdosAFN.add(nuevoFinal);
       nuevoEdosAceptacion.add(nuevoFinal);
       this.getEdoInicial().setEdoInicial(false);
+      
+      nuevoAlfabeto = nuevoAlfabeto.stream().distinct().collect(Collectors.toList()); 
+      
         return new AFN(idNuevoAFN,nuevoInicial,nuevoAlfabeto,nuevoEdosAceptacion,nuevoEdosAFN);
     }
     
-    public List<Estado> cerrarEpsilon(List<Estado> estados){
-        return new ArrayList<>();
+    static public List<Estado> cerrarEpsilon(List<Estado> estados){
+        
+        List<Estado> R = new ArrayList<>();
+        
+        estados.stream().forEach((edo)->{
+            R.addAll(cerrarEpsilon(edo));
+        });
+
+        return R.stream().distinct().collect(Collectors.toList());
     }
     
-    public List<Estado> cerrarEpsilon(Estado unEstado){
-        return new ArrayList<>();
+    static public List<Estado> cerrarEpsilon(Estado unEstado){
+        
+        Stack<Estado> S = new Stack<>();
+        List<Estado>  R = new ArrayList<>();
+        
+        S.push(unEstado);
+        
+        while(!S.empty()){
+            
+            Estado p = S.pop();
+            
+            R.add(p);
+            
+            System.out.println(p);
+            
+            if(p.getTransciciones()!= null){
+               p.getTransciciones().stream().forEach((w)-> {
+                    if(w.getSimbolo() == 'ɛ'){
+                       List<Estado> edosDest = w.getEdosDestinos();
+                       edosDest.stream().forEach( (unEdo)->{
+                           if(!R.contains(unEdo)){
+                               S.push(unEdo);
+                           }
+                       });
+                    }
+                }); 
+            } 
+        }
+        return R;
     }
     
-    public List<Estado> mover(List<Estado> estados, Character simbolo){
-        return new ArrayList<>();
+    static public List<Estado> mover(List<Estado> estados, Character simbolo){
+        List<Estado> R = new ArrayList<>();
+
+        estados.stream().forEach((e)->{
+            R.addAll(mover(e, simbolo));
+        });
+        
+        return R.stream().distinct().collect(Collectors.toList());
     }
     
-    public List<Estado> mover(Estado unEstado, Character simbolo){
-        return new ArrayList<>();
+    static public List<Estado> mover(Estado unEstado, Character simbolo){
+        
+        List<Estado> R = new ArrayList<>();
+        
+        if(unEstado.getTransciciones()!= null){
+            unEstado.getTransciciones().stream().forEach((t)->{
+                if(t.simbolo == simbolo){
+                    R.addAll(t.getEdosDestinos());
+                }
+            });
+        }
+        
+        
+        return R;
+       
     }
     
-    public  List<Estado> irA(List<Estado> estados, Character simbolo){
+    static public List<Estado> irA(List<Estado> estados, Character simbolo){
+        
         return cerrarEpsilon(mover(estados, simbolo));
     }
     
