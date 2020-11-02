@@ -425,7 +425,7 @@ public class AFN {
         return new AFN(idNuevoAFN,nuevoInicial,nuevoAlfabeto,nuevoEdosAceptacion,nuevoEdosAFN);
     }
     
-    static public List<Estado> cerrarEpsilon(List<Estado> estados){
+    public List<Estado> cerrarEpsilon(List<Estado> estados){
         
         List<Estado> R = new ArrayList<>();
         
@@ -436,7 +436,7 @@ public class AFN {
         return R.stream().distinct().collect(Collectors.toList());
     }
     
-    static public List<Estado> cerrarEpsilon(Estado unEstado){
+    public List<Estado> cerrarEpsilon(Estado unEstado){
         
         Stack<Estado> S = new Stack<>();
         List<Estado>  R = new ArrayList<>();
@@ -467,7 +467,7 @@ public class AFN {
         return R;
     }
     
-    static public List<Estado> mover(List<Estado> estados, Character simbolo){
+    public List<Estado> mover(List<Estado> estados, Character simbolo){
         List<Estado> R = new ArrayList<>();
 
         estados.stream().forEach((e)->{
@@ -477,7 +477,7 @@ public class AFN {
         return R.stream().distinct().collect(Collectors.toList());
     }
     
-    static public List<Estado> mover(Estado unEstado, Character simbolo){
+    public List<Estado> mover(Estado unEstado, Character simbolo){
         
         List<Estado> R = new ArrayList<>();
         
@@ -494,13 +494,34 @@ public class AFN {
        
     }
     
-    static public List<Estado> irA(List<Estado> estados, Character simbolo){
+    public List<Estado> irA(List<Estado> estados, Character simbolo){
         
         return cerrarEpsilon(mover(estados, simbolo));
     }
     
-    public int analizarCadena(String cadena){
-        return -1;
+    public boolean validarCadena(String S){
+        
+        List<Estado> E;
+        boolean bandera = false;
+        int i =0;
+        
+        E = cerrarEpsilon(getEdoInicial());
+        
+        for(i=0; i< S.length(); i++){
+            E = irA(E, S.charAt(i));
+            if( E.size() == 0 )
+                return false;
+        }
+        
+        List<Estado> edos_Acep = getEdosAceptacion();
+            
+        for(i=0; i < E.size(); i++){
+            if(edos_Acep.contains(E.get(i))){
+                return true;
+            }
+        }
+        
+        return false;
     }
     
     public AFD convertirAFN(){
