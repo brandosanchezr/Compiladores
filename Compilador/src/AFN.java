@@ -14,6 +14,9 @@ import java.util.stream.Collectors;
 /**
  *
  * @author Brando Sanchez
+ * @author Alejandro Colin
+ * @author Alexis Trujillo
+ * 
  */
 public class AFN {
     
@@ -449,7 +452,7 @@ public class AFN {
             
             R.add(p);
             
-            System.out.println(p);
+            //System.out.println(p);
             
             if(p.getTransciciones()!= null){
                p.getTransciciones().stream().forEach((w)-> {
@@ -525,8 +528,106 @@ public class AFN {
     }
     
     public AFD convertirAFN(){
-        return new AFD();
+        
+        List<Character> nuevoAlfabeto = alfabeto;
+        nuevoAlfabeto.remove(Character.valueOf('ɛ'));
+        //System.out.println("~~~~~ "+nuevoAlfabeto.toString());
+        //Los estados del nuevo afd 
+        List<Estado> nuevosEstados = new ArrayList<Estado>();
+        List<Estado> nuevosEstadosAceptacion = new ArrayList<Estado>();
+        //Creamos el primer estado
+        nuevosEstados.add(new Estado(0, new ArrayList<Transicion>(), true, false, -1));
+
+        List<Subestado> edNoAnalizados = new ArrayList<Subestado>();
+        List<Subestado> edAnalizados = new ArrayList<Subestado>();
+        // Calculamos la cerradura E del estado inicial
+        Subestado S0 = new Subestado(0, false);
+        S0.setEstados(cerrarEpsilon( this.edoInicial ));
+        edNoAnalizados.add(S0);
+
+        int i = 0; //Indice
+        int ie = 1; //Indice de estados existentes
+
+        while(!edNoAnalizados.isEmpty()) //Mientras no sea igual a vacio
+        {
+            for( Character c : nuevoAlfabeto )
+            {
+                Subestado Sn = new Subestado();
+                Sn.setEstados(irA( edNoAnalizados.get(0).getEstados() , c ));
+
+                //System.out.println("Hello there "+ ie + "~" + c + "~" + Sn.toString());
+
+                if(!Sn.getEstados().isEmpty()) { //Si esta vacio ya no hagas nada mas.
+                    // Hay que revisar si no existe ya ese grupo de estados en los analizados o no analizados
+                    // Si existe crea la transicion a ese estado ya creado y si no crea la transicion a este 
+                    // nuevo estado 
+
+                    boolean repetido = false;
+                    for( Subestado S : edNoAnalizados )
+                    {
+                        if( S.getEstados().equals(Sn.getEstados()) ) 
+                        {
+                            repetido = true;
+                            Transicion t = new Transicion(c);
+                            t.agregarDestino(nuevosEstados.get(S.getId()));
+                            List<Transicion> tn =  nuevosEstados.get(edNoAnalizados.get(0).getId()).getTransciciones();
+                            tn.add(t);
+                            nuevosEstados.get(edNoAnalizados.get(0).getId()).setTransciciones(tn);
+                        }
+                    }
+                    for( Subestado S : edAnalizados )
+                    {
+                        if( S.getEstados().equals(Sn.getEstados()) ) 
+                        {
+                            repetido = true;
+                            Transicion t = new Transicion(c);
+                            t.agregarDestino(nuevosEstados.get(S.getId()));
+                            List<Transicion> tn =  nuevosEstados.get(edNoAnalizados.get(0).getId()).getTransciciones();
+                            tn.add(t);
+                            nuevosEstados.get(edNoAnalizados.get(0).getId()).setTransciciones(tn);
+                        }
+                    }
+
+                    if(!repetido) //Si no se repitio
+                    {   
+                        //Crea un nuevo estado para el afd
+                        nuevosEstados.add( new Estado(ie, new ArrayList<Transicion>(), false, false, 0) ); 
+                        //checar si es edo final
+                        for(Estado est : Sn.getEstados())
+                        {
+                            if(est.isEdoFinal())
+                            {
+                                nuevosEstados.get(ie).setEdoFinal(true);
+                                nuevosEstados.get(ie).setToken(est.token);
+                                nuevosEstadosAceptacion.add(nuevosEstados.get(ie));
+                            }
+                        }
+
+                        //Agrega la transicion
+                        List<Transicion> tn = nuevosEstados.get(edNoAnalizados.get(i).getId()).getTransciciones();
+                        Transicion t = new Transicion(c);
+                        t.agregarDestino(nuevosEstados.get(ie));
+                        tn.add(t);
+                        nuevosEstados.get(edNoAnalizados.get(i).getId()).setTransciciones(tn);
+
+                        
+                        Sn.setId(ie);
+                        ie++; //Aumenta el indice del estado  
+                        edNoAnalizados.add( Sn ); //Se agrega el conjunto a los no analizados
+                    }
+                }
+
+            }
+            
+            //Agregamos el conjunto actual como estado analizado
+            edAnalizados.add( edNoAnalizados.remove(0) ); 
+            
+            
+        }
+        //*/
+        return new AFD(new AFN(this.id, nuevosEstados.get(0), nuevoAlfabeto, nuevosEstadosAceptacion, nuevosEstados));
     }
+
     @Override
     public String toString() { 
         return String.format("ID AFN: " + id + "\n" +

@@ -12,6 +12,9 @@ import java.util.List;
 /**
  *
  * @author Brando Sanchez
+ * @author Alejandro Colin
+ * @author Alexis Trujillo
+ * 
  */
 
 
@@ -121,7 +124,24 @@ public class Compilador {
 //        irA.stream().forEach( (edo)->{
 //            System.out.println(edo.getId());
 //        } );
-        
+
+
+        AFN basico1 = new AFN();
+        basico1 = basico1.crearBasico('L');
+        AFN basico2 = new AFN();
+        basico2 = basico2.crearBasico('L');
+        AFN basico3 = new AFN();
+        basico3 = basico3.crearBasico('D');
+
+        AFN uniones = basico2.unir(basico3, 0, 10);
+        uniones = uniones.cerrarKleen(1, 10);
+        uniones = basico1.concatenar(uniones, 3, 10);
+
+        //System.out.println(uniones.toString());
+
+        AFD nuevoAFD = uniones.convertirAFN();
+
+        System.out.println(nuevoAFD.toString());
     }
     
 }

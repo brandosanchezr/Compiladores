@@ -12,6 +12,9 @@ import java.util.Iterator;
 /**
  *
  * @author Brando Sanchez
+ * @author Alejandro Colin
+ * @author Alexis Trujillo
+ * 
  */
 public class Transicion {
     
