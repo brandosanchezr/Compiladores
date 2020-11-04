@@ -529,9 +529,10 @@ public class AFN {
     
     public AFD convertirAFN(){
         
+        List<List<Integer>> tablaTrancisiones = new ArrayList<>();
         List<Character> nuevoAlfabeto = alfabeto;
         nuevoAlfabeto.remove(Character.valueOf('ɛ'));
-        //System.out.println("~~~~~ "+nuevoAlfabeto.toString());
+
         //Los estados del nuevo afd 
         List<Estado> nuevosEstados = new ArrayList<Estado>();
         List<Estado> nuevosEstadosAceptacion = new ArrayList<Estado>();
@@ -550,12 +551,14 @@ public class AFN {
 
         while(!edNoAnalizados.isEmpty()) //Mientras no sea igual a vacio
         {
+            tablaTrancisiones.add(new ArrayList<Integer>());
+            int idEstadoAnalizado = edNoAnalizados.get(0).getId();
             for( Character c : nuevoAlfabeto )
             {
+                int indiceAlfabeto = nuevoAlfabeto.indexOf(Character.valueOf(c));
+
                 Subestado Sn = new Subestado();
                 Sn.setEstados(irA( edNoAnalizados.get(0).getEstados() , c ));
-
-                //System.out.println("Hello there "+ ie + "~" + c + "~" + Sn.toString());
 
                 if(!Sn.getEstados().isEmpty()) { //Si esta vacio ya no hagas nada mas.
                     // Hay que revisar si no existe ya ese grupo de estados en los analizados o no analizados
@@ -570,9 +573,11 @@ public class AFN {
                             repetido = true;
                             Transicion t = new Transicion(c);
                             t.agregarDestino(nuevosEstados.get(S.getId()));
-                            List<Transicion> tn =  nuevosEstados.get(edNoAnalizados.get(0).getId()).getTransciciones();
+                            List<Transicion> tn =  nuevosEstados.get(idEstadoAnalizado).getTransciciones();
                             tn.add(t);
-                            nuevosEstados.get(edNoAnalizados.get(0).getId()).setTransciciones(tn);
+                            nuevosEstados.get(idEstadoAnalizado).setTransciciones(tn);
+
+                            tablaTrancisiones.get(idEstadoAnalizado).add( S.getId() );
                         }
                     }
                     for( Subestado S : edAnalizados )
@@ -582,9 +587,11 @@ public class AFN {
                             repetido = true;
                             Transicion t = new Transicion(c);
                             t.agregarDestino(nuevosEstados.get(S.getId()));
-                            List<Transicion> tn =  nuevosEstados.get(edNoAnalizados.get(0).getId()).getTransciciones();
+                            List<Transicion> tn =  nuevosEstados.get(idEstadoAnalizado).getTransciciones();
                             tn.add(t);
-                            nuevosEstados.get(edNoAnalizados.get(0).getId()).setTransciciones(tn);
+                            nuevosEstados.get(idEstadoAnalizado).setTransciciones(tn);
+
+                            tablaTrancisiones.get(idEstadoAnalizado).add( S.getId() );
                         }
                     }
 
@@ -592,6 +599,7 @@ public class AFN {
                     {   
                         //Crea un nuevo estado para el afd
                         nuevosEstados.add( new Estado(ie, new ArrayList<Transicion>(), false, false, 0) ); 
+
                         //checar si es edo final
                         for(Estado est : Sn.getEstados())
                         {
@@ -604,28 +612,33 @@ public class AFN {
                         }
 
                         //Agrega la transicion
-                        List<Transicion> tn = nuevosEstados.get(edNoAnalizados.get(i).getId()).getTransciciones();
+                        List<Transicion> tn = nuevosEstados.get(idEstadoAnalizado).getTransciciones();
                         Transicion t = new Transicion(c);
                         t.agregarDestino(nuevosEstados.get(ie));
                         tn.add(t);
-                        nuevosEstados.get(edNoAnalizados.get(i).getId()).setTransciciones(tn);
+                        nuevosEstados.get(idEstadoAnalizado).setTransciciones(tn);
 
-                        
+                        tablaTrancisiones.get(idEstadoAnalizado).add( ie );
+
                         Sn.setId(ie);
                         ie++; //Aumenta el indice del estado  
                         edNoAnalizados.add( Sn ); //Se agrega el conjunto a los no analizados
                     }
                 }
-
+                else{
+                    tablaTrancisiones.get(idEstadoAnalizado).add(-1);
+                }
             }
-            
+            tablaTrancisiones.get(idEstadoAnalizado).add( 
+                (nuevosEstados.get(idEstadoAnalizado).isEdoFinal())? nuevosEstados.get(idEstadoAnalizado).getToken() : -1
+             );
             //Agregamos el conjunto actual como estado analizado
             edAnalizados.add( edNoAnalizados.remove(0) ); 
             
             
         }
         //*/
-        return new AFD(new AFN(this.id, nuevosEstados.get(0), nuevoAlfabeto, nuevosEstadosAceptacion, nuevosEstados));
+        return new AFD(new AFN(this.id, nuevosEstados.get(0), nuevoAlfabeto, nuevosEstadosAceptacion, nuevosEstados), tablaTrancisiones);
     }
 
     @Override

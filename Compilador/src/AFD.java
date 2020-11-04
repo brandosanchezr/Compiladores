@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 
+import java.util.List;
+
 /**
  *
  * @author Brando Sanchez
@@ -13,23 +15,23 @@
  */
 public class AFD extends AFN{
 
-    int[][] tabla;
+    List<List<Integer>> tabla;
 
-    public AFD(AFN pre) {
+    public AFD(AFN pre, List<List<Integer>> tn) {
         setAlfabeto(pre.getAlfabeto());
         setEdoInicial(pre.getEdoInicial());
         setEdosAFN(pre.getEdosAFN());
         setEdosAceptacion(pre.getEdosAceptacion());
         setId(getId());
-        //tabla = t;
+        tabla = tn;
     }
 
-    public void setTabla(int[][] t)
+    public void setTabla(List<List<Integer>> t)
     {
         tabla = t;
     }
 
-    public int[][] getTabla()
+    public List<List<Integer>> getTabla()
     {
         return tabla;
     }
@@ -40,7 +42,8 @@ public class AFD extends AFN{
                              "Estado inicial: " + edoInicial.toString() + "\n" +
                              "Alfabeto: " + alfabeto.toString() + "\n" +
                              "Estados de aceptacion: " + edosAceptacion.toString() + "\n" +
-                             "Estados del ANF: " + edosAFN.toString() +"\n" 
+                             "Estados del AFD: " + edosAFN.toString() +"\n" +
+                             "Tabla AFD: " + tabla.toString() +"\n"
         ); 
     }
 
