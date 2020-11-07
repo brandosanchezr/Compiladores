@@ -1,6 +1,8 @@
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -23,7 +25,7 @@ public class Compilador {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
             //Automata basico 1
         //AFN miAFN = new AFN();
         //miAFN = miAFN.crearBasico('c');
@@ -41,6 +43,15 @@ public class Compilador {
         //Automata Opcional
         //AFN opcional =  miAFN.opcional(7, 60);
         //System.out.println(opcional);
+//        System.out.println("Crear un AFN mediante thompson");
+//        System.out.println("Ingresa el caracter para el AFN: ");
+//        Scanner escaneo = new Scanner(System.in);
+//        char caracter;
+//        caracter = escaneo.next().charAt(0);
+//        AFN miAFN = new AFN();
+//        miAFN = miAFN.crearBasico(caracter);
+          Menu miMenu = new Menu();
+          miMenu.iniciar();
         
         
 //        List<Transicion> transiciones_e = new ArrayList<>();
@@ -147,6 +158,23 @@ public class Compilador {
 
         System.out.println(nuevoAFD.toString());
         //System.out.println(afnParaAFD.toString());
+
+//        AFN basico1 = new AFN();
+//        basico1 = basico1.crearBasico('L');
+//        AFN basico2 = new AFN();
+//        basico2 = basico2.crearBasico('L');
+//        AFN basico3 = new AFN();
+//        basico3 = basico3.crearBasico('D');
+//
+//        AFN uniones = basico2.unir(basico3, 0, 10);
+//        uniones = uniones.cerrarKleen(1, 10);
+//        uniones = basico1.concatenar(uniones, 3, 10);
+//
+//        //System.out.println(uniones.toString());
+//
+//        AFD nuevoAFD = uniones.convertirAFN();
+//
+//        System.out.println(nuevoAFD.toString());
     }
     
 }
