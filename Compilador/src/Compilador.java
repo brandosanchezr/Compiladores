@@ -127,21 +127,26 @@ public class Compilador {
 
 
         AFN basico1 = new AFN();
-        basico1 = basico1.crearBasico('L');
+        basico1 = basico1.crearBasico('L',10);
         AFN basico2 = new AFN();
-        basico2 = basico2.crearBasico('L');
+        basico2 = basico2.crearBasico('L',10);
         AFN basico3 = new AFN();
-        basico3 = basico3.crearBasico('D');
+        basico3 = basico3.crearBasico('D',10);
 
-        AFN uniones = basico2.unir(basico3, 0, 10);
-        uniones = uniones.cerrarKleen(1, 10);
-        uniones = basico1.concatenar(uniones, 3, 10);
-
+        AFN uniones = basico2.unir(basico3, 0, 20);
+        //uniones = uniones.cerrarKleen(1, 10);
+        //uniones = basico1.concatenar(uniones, 3, 10);
+        List<AFN> aFNs=new ArrayList<>();
+        aFNs.add(basico1);
+        aFNs.add(uniones);
+        AFN afnParaAFD = new AFN();
+            afnParaAFD = afnParaAFD.unirParaAFD(aFNs,1);
         //System.out.println(uniones.toString());
 
-        AFD nuevoAFD = uniones.convertirAFN();
+        AFD nuevoAFD = afnParaAFD.convertirAFN();
 
         System.out.println(nuevoAFD.toString());
+        //System.out.println(afnParaAFD.toString());
     }
     
 }
