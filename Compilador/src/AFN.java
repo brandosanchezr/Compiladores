@@ -83,7 +83,7 @@ public class AFN {
     
     //Metodos
     
-    public AFN crearBasico(Character c){
+    public AFN crearBasico(Character c,int idAFN){
         
         if(!this.getAlfabeto().contains(c));
             this.alfabeto.add(c);
@@ -91,7 +91,7 @@ public class AFN {
         
         List<Estado> edosAFN = new ArrayList<Estado>();
         
-        Estado segundoEdo = new Estado(1, null, false, true, 10);
+        Estado segundoEdo = new Estado(1, null, false, true, idAFN);
         
         Transicion unaTransicion = new Transicion(c);
         unaTransicion.agregarDestino(segundoEdo);
@@ -527,6 +527,51 @@ public class AFN {
         }
         
         return false;
+    }
+    public AFN unirParaAFD(List<AFN> listaAFN,int idAFN){
+       int  numEstados=1;
+       List<Transicion> inicialTrans = new ArrayList<>();
+       List<Character> nuevoAlfabeto = new ArrayList<>();
+       List<Estado> nuevoEdosAFN = new ArrayList<>();
+       List<Estado> nuevoEdosAceptacion = new ArrayList<>();
+       nuevoAlfabeto.add('ɛ');
+       
+       //Crear transiciones para estado inicial y nuevo Alfabeto
+       for(int i=0;i<listaAFN.size();i++){
+           //Transicion a inicial del AFN 
+           Transicion inicialAFN = new Transicion('ɛ');
+           inicialAFN.agregarDestino(listaAFN.get(i).getEdoInicial());
+           inicialTrans.add(inicialAFN);
+           //Nuevo Alfabeto
+           for(int j=0;j<listaAFN.get(i).getAlfabeto().size();j++){
+               if(!nuevoAlfabeto.contains(listaAFN.get(i).getAlfabeto().get(j))){
+                   nuevoAlfabeto.add(listaAFN.get(i).getAlfabeto().get(j));
+               }
+           }
+       }
+       Estado nuevoInicial = new Estado(0,inicialTrans,true,false,0);
+       nuevoEdosAFN.add(nuevoInicial);
+       
+       //Setear nuevo iD de estado, cambiar iniciales
+       //Agregar Estados al nuevo AFN, estados de aceptacion
+       for(int n=0; n< listaAFN.size();n++){
+           for(int m=0;m<listaAFN.get(n).getEdosAFN().size();m++){
+               //Si es inicial
+               if(listaAFN.get(n).getEdosAFN().get(m).isEdoInicial()){
+                   listaAFN.get(n).getEdosAFN().get(m).setEdoInicial(false);
+               }
+               //Set nuevo Id
+               listaAFN.get(n).getEdosAFN().get(m).setId(numEstados);
+               numEstados++;
+               //Si es final
+               if(listaAFN.get(n).getEdosAFN().get(m).isEdoFinal()){
+                   nuevoEdosAceptacion.add(listaAFN.get(n).getEdosAFN().get(m));
+               }
+               nuevoEdosAFN.add(listaAFN.get(n).getEdosAFN().get(m));
+           }
+           
+       }
+       return new AFN(idAFN,nuevoInicial,nuevoAlfabeto,nuevoEdosAceptacion,nuevoEdosAFN);  
     }
     
     public AFD convertirAFN(){
