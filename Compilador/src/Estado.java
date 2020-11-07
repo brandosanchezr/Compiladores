@@ -17,11 +17,11 @@ import java.util.List;
  */
 public class Estado {
     
-    int id; //entero >= 0
-    List<Transicion> transciciones;
-    boolean edoInicial;
-    boolean edoFinal;
-    int token; // entero > 0 y solo si es de acceptacion
+    private int id; //entero >= 0
+    private List<Transicion> transciciones;
+    private boolean edoInicial;
+    private boolean edoFinal;
+    private int token; // entero > 0 y solo si es de acceptacion
 
     public Estado() {
       

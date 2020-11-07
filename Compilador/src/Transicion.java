@@ -18,8 +18,8 @@ import java.util.Iterator;
  */
 public class Transicion {
     
-    Character simbolo;
-    List<Estado> edosDestinos = new ArrayList<>();
+    private Character simbolo;
+    private List<Estado> edosDestinos = new ArrayList<>();
 
     public Transicion(char simbolo) {
         this.simbolo = simbolo;

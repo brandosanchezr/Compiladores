@@ -20,11 +20,11 @@ import java.util.stream.Collectors;
  */
 public class AFN {
     
-    int id;
-    Estado edoInicial;
-    List<Character> alfabeto;
-    List<Estado> edosAceptacion;
-    List<Estado> edosAFN;
+    private int id;
+    private Estado edoInicial;
+    private List<Character> alfabeto;
+    private List<Estado> edosAceptacion;
+    private List<Estado> edosAFN;
 
     public AFN() {
         this.alfabeto = new ArrayList<Character>();
@@ -167,6 +167,7 @@ public class AFN {
         for (int i=0;i < this.getEdosAFN().size();i++){
             Estado aux = (Estado) this.getEdosAFN().get(i);
             aux.setId(nuevoId);
+            aux.setToken(0);
             if(i==this.getEdosAFN().size()-1){
                 aux.setEdoFinal(false);    // Ya no es estado final
                 if(aux.getTransciciones()!=null){
@@ -187,6 +188,7 @@ public class AFN {
         for(int j = 0; j< unAFN.getEdosAFN().size();j++){
             Estado aux= (Estado) unAFN.getEdosAFN().get(j);
             aux.setId(nuevoId);
+            aux.setToken(0);
             if(j==unAFN.getEdosAFN().size()-1){
                 aux.setEdoFinal(false);
                 if(aux.getTransciciones()!=null){
@@ -486,7 +488,7 @@ public class AFN {
         
         if(unEstado.getTransciciones()!= null){
             unEstado.getTransciciones().stream().forEach((t)->{
-                if(t.simbolo == simbolo){
+                if(t.getSimbolo() == simbolo){
                     R.addAll(t.getEdosDestinos());
                 }
             });
@@ -606,7 +608,7 @@ public class AFN {
                             if(est.isEdoFinal())
                             {
                                 nuevosEstados.get(ie).setEdoFinal(true);
-                                nuevosEstados.get(ie).setToken(est.token);
+                                nuevosEstados.get(ie).setToken(est.getToken());
                                 nuevosEstadosAceptacion.add(nuevosEstados.get(ie));
                             }
                         }
