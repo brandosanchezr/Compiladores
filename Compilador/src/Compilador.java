@@ -175,6 +175,7 @@ public class Compilador {
 //        AFD nuevoAFD = uniones.convertirAFN();
 //
 //        System.out.println(nuevoAFD.toString());
+
     }
     
 }
