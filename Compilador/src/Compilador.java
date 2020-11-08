@@ -192,7 +192,28 @@ public class Compilador {
         AFN afnParaAFD = new AFN();
             afnParaAFD = afnParaAFD.unirParaAFD(aFNs, 1);
         AFD nuevoAFD = afnParaAFD.convertirAFN();
-        System.out.println(nuevoAFD.toString());
+        String sigma = "DD.DDTTLLDEMEEP";
+        AnalizadorLexico analizarNuevoAFD = new AnalizadorLexico(nuevoAFD,sigma);
+        ResultadoAnalizadorLex yyLex1= new ResultadoAnalizadorLex();
+                                yyLex1 = analizarNuevoAFD.yyLex();  //primer yyLex
+                                System.out.println(yyLex1.toString());
+                                yyLex1 = analizarNuevoAFD.yyLex();  //segudno yyLex
+                                System.out.println(yyLex1.toString());
+                                yyLex1 = analizarNuevoAFD.yyLex();  //tercer yyLex
+                                System.out.println(yyLex1.toString());
+                                yyLex1 = analizarNuevoAFD.yyLex();  //cuarto yyLex
+                                System.out.println(yyLex1.toString());
+                                yyLex1 = analizarNuevoAFD.yyLex();  //quinto yyLex
+                                System.out.println(yyLex1.toString());
+                                yyLex1 = analizarNuevoAFD.yyLex();  //sexto yyLex
+                                System.out.println(yyLex1.toString());
+                                yyLex1 = analizarNuevoAFD.yyLex();  //septimo yyLex
+                                System.out.println(yyLex1.toString());
+                                yyLex1 = analizarNuevoAFD.yyLex();  //octavo yyLex
+                                System.out.println(yyLex1.toString());
+                                
+                                
+        //---System.out.println(nuevoAFD.toString());
             
             
         //uniones = uniones.cerrarKleen(1, 10);
