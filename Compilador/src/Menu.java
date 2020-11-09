@@ -101,15 +101,32 @@ public class Menu {
     
     
     public void crearAFN(){
-        System.out.println("Crear un AFN mediante thompson");
-        System.out.println("Ingresa el caracter para el AFN: ");
-        char caracter;
         Scanner escaneo = new Scanner(System.in);
+        
+        System.out.println("Crear un AFN mediante thompson");
+        
+        System.out.println("Ingresa el primer caracter para el AFN: ");
+        char caracter;
         caracter = escaneo.next().charAt(0);
-        AFN miAFN = new AFN();
-        miAFN = miAFN.crearBasico(caracter);
-        list_afn.add(miAFN);
-        actualizarIds();
+        
+        System.out.println("Ingresa el segundo caracter para el AFN: ");
+        char caracter_2;
+        caracter_2 = escaneo.next().charAt(0);
+        
+        System.out.println("Ingresa el token para el AFN: ");
+        int token;
+        token = escaneo.nextInt();
+        
+        if((int)caracter < (int)caracter_2){
+            AFN miAFN = new AFN();
+            miAFN = miAFN.crearBasico(caracter,caracter_2, token);
+            list_afn.add(miAFN);
+            actualizarIds();
+            System.out.println("Creado con exito.");
+        }else
+            System.out.println("Caracteres invalidos en rango");
+        
+
     }
     
     public void mostrarUnAFN(){

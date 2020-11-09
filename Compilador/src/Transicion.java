@@ -19,10 +19,12 @@ import java.util.Iterator;
 public class Transicion {
     
     private Character simbolo;
+    private Character simbolo_2;
     private List<Estado> edosDestinos = new ArrayList<>();
 
-    public Transicion(char simbolo) {
+    public Transicion(char simbolo, char simbolo_2) {
         this.simbolo = simbolo;
+        this.simbolo_2 = simbolo_2;
     }
 
     public Transicion() {
@@ -59,7 +61,7 @@ public class Transicion {
     } 
     @Override
     public String toString() {
-        return "\n\t\tSimbolo: " + simbolo + ", Estados Destinos: " + getIdEdos().toString();
+        return "\n\t\tSimbolo_1: " + simbolo + " Simbolo_2: "+ simbolo_2 + ", Estados Destinos: " + getIdEdos().toString();
     }
     
     
