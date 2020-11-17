@@ -195,23 +195,25 @@ public class Compilador {
         String sigma = "DD.DDTTLLDEMEEP";
         AnalizadorLexico analizarNuevoAFD = new AnalizadorLexico(nuevoAFD,sigma);
         ResultadoAnalizadorLex yyLex1= new ResultadoAnalizadorLex();
-                                yyLex1 = analizarNuevoAFD.yyLex();  //primer yyLex
+                                yyLex1 = analizarNuevoAFD.yyLex();  //primer yyLex  DD,DD
                                 System.out.println(yyLex1.toString());
-                                yyLex1 = analizarNuevoAFD.yyLex();  //segudno yyLex
+                                yyLex1 = analizarNuevoAFD.yyLex();  //segudno yyLex     TT
                                 System.out.println(yyLex1.toString());
-                                yyLex1 = analizarNuevoAFD.yyLex();  //tercer yyLex
-                                System.out.println(yyLex1.toString());
-                                yyLex1 = analizarNuevoAFD.yyLex();  //cuarto yyLex
-                                System.out.println(yyLex1.toString());
-                                yyLex1 = analizarNuevoAFD.yyLex();  //quinto yyLex
-                                System.out.println(yyLex1.toString());
-                                yyLex1 = analizarNuevoAFD.yyLex();  //sexto yyLex
-                                System.out.println(yyLex1.toString());
-                                yyLex1 = analizarNuevoAFD.yyLex();  //septimo yyLex
-                                System.out.println(yyLex1.toString());
-                                yyLex1 = analizarNuevoAFD.yyLex();  //octavo yyLex
+                                yyLex1 = analizarNuevoAFD.yyLex();  //tercer yyLex  LLD
                                 System.out.println(yyLex1.toString());
                                 
+                                analizarNuevoAFD.regresarToken();   //PRUEBA REGRESAR TOKEN
+                                
+                                yyLex1 = analizarNuevoAFD.yyLex();  //cuarto yyLex     E
+                                System.out.println(yyLex1.toString());
+                                yyLex1 = analizarNuevoAFD.yyLex();  //quinto yyLex      M
+                                System.out.println(yyLex1.toString());
+                                yyLex1 = analizarNuevoAFD.yyLex();  //sexto yyLex       EE
+                                System.out.println(yyLex1.toString());
+                                yyLex1 = analizarNuevoAFD.yyLex();  //septimo yyLex     P
+                                System.out.println(yyLex1.toString());
+                                yyLex1 = analizarNuevoAFD.yyLex();  //octavo yyLex      FIN 
+                                System.out.println(yyLex1.toString());
                                 
         //---System.out.println(nuevoAFD.toString());
             
