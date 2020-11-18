@@ -83,6 +83,7 @@ public class Menu {
                     System.out.println("Elige opcion valida.");
             }
         }
+        escaneo.close();
     }
     
     public void actualizarIds(){
@@ -126,7 +127,7 @@ public class Menu {
         }else
             System.out.println("Caracteres invalidos en rango");
         
-
+        escaneo.close();
     }
     
     public void mostrarUnAFN(){
@@ -143,7 +144,7 @@ public class Menu {
             System.out.println("ID NO VALIDO");
         }
         
-        
+        escaneo.close();
     }
     public void elegirAFNaUnir(){
         mostrarAFNs();
@@ -165,6 +166,7 @@ public class Menu {
         } catch (Exception e) {
             System.out.println("Error al unir(ID INVALIDO).");
         }
+        escaneo.close();
     }
     
     public void elegirAFNaConvertir(){
@@ -180,6 +182,7 @@ public class Menu {
             System.out.println("ID NO VALIDO");
         }
         actualizarIds();
+        escaneo.close();
     }
     
     public void elegirAFNaConcatenar(){
@@ -204,6 +207,7 @@ public class Menu {
         }
         
         actualizarIds();
+        escaneo.close();
     }
     
     public void elegirAFNaCerrarT(){
@@ -223,6 +227,7 @@ public class Menu {
         } catch (Exception e) {
             System.out.println("Error al unir(ID INVALIDO).");
         }
+        escaneo.close();
     }
     
     public void elegirAFNaCerrarK(){
@@ -242,6 +247,7 @@ public class Menu {
         } catch (Exception e) {
             System.out.println("Error al unir(ID INVALIDO).");
         }
+        escaneo.close();
     }
     
     public void elegirAFNaOpcional(){
@@ -261,6 +267,7 @@ public class Menu {
         } catch (Exception e) {
             System.out.println("Error al unir(ID INVALIDO).");
         }
+        escaneo.close();
     }
     
     public void validacionCadena(){
@@ -279,6 +286,7 @@ public class Menu {
         if(list_afn.get(id).validarCadena(cadena)){
             System.out.println("La cadena es valida para dicho AFN");
         }
+        escaneo.close();
     }
 }
 
