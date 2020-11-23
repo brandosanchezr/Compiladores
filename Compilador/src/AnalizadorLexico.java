@@ -1,4 +1,3 @@
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,7 +81,6 @@ public class AnalizadorLexico {
         for(int i=iniLexem;i<=finLexem;i++)
             lexema=lexema+Character.toString(cadena.charAt(i));
         this.agregarTokenGlobal(List.of(this.iniLexem,this.auxFinLexem));
-
         return new ResultadoAnalizadorLex(token,lexema);
     }
     public void regresarToken(){

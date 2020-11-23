@@ -1,6 +1,8 @@
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -23,7 +25,7 @@ public class Compilador {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
             //Automata basico 1
         //AFN miAFN = new AFN();
         //miAFN = miAFN.crearBasico('c');
@@ -41,6 +43,15 @@ public class Compilador {
         //Automata Opcional
         //AFN opcional =  miAFN.opcional(7, 60);
         //System.out.println(opcional);
+//        System.out.println("Crear un AFN mediante thompson");
+//        System.out.println("Ingresa el caracter para el AFN: ");
+//        Scanner escaneo = new Scanner(System.in);
+//        char caracter;
+//        caracter = escaneo.next().charAt(0);
+//        AFN miAFN = new AFN();
+//        miAFN = miAFN.crearBasico(caracter);
+          Menu miMenu = new Menu();
+          miMenu.iniciar();
         
         
 //        List<Transicion> transiciones_e = new ArrayList<>();
@@ -124,21 +135,13 @@ public class Compilador {
 //        irA.stream().forEach( (edo)->{
 //            System.out.println(edo.getId());
 //        } );
-<<<<<<< Updated upstream
-
-
-=======
 /*      //------EJERCICIO------------------
         //TOKEN 10
->>>>>>> Stashed changes
         AFN basico1 = new AFN();
-        basico1 = basico1.crearBasico('L');
+        basico1 = basico1.crearBasico('L','L',5);
         AFN basico2 = new AFN();
-        basico2 = basico2.crearBasico('L');
+        basico2 = basico2.crearBasico('L','L',5);
         AFN basico3 = new AFN();
-<<<<<<< Updated upstream
-        basico3 = basico3.crearBasico('D');
-=======
         basico3 = basico3.crearBasico('D','D',5);
         AFN uniones = basico2.unir(basico3, 0, 5);
             uniones = uniones.cerrarKleen(1, 5);
@@ -211,11 +214,10 @@ public class Compilador {
                                 System.out.println(yyLex1.toString());
                                 yyLex1 = analizarNuevoAFD.yyLex();  //octavo yyLex      FIN 
                                 System.out.println(yyLex1.toString());
-*/
-
-
+*/                                
         //---System.out.println(nuevoAFD.toString());
-
+            
+            
         //uniones = uniones.cerrarKleen(1, 10);
         //uniones = basico1.concatenar(uniones, 3, 10);
         //---List<AFN> aFNs=new ArrayList<>();
@@ -224,19 +226,12 @@ public class Compilador {
         //---AFN afnParaAFD = new AFN();
         //---afnParaAFD = afnParaAFD.unirParaAFD(aFNs,1);
         //System.out.println(uniones.toString());
->>>>>>> Stashed changes
 
-        AFN uniones = basico2.unir(basico3, 0, 10);
-        uniones = uniones.cerrarKleen(1, 10);
-        uniones = basico1.concatenar(uniones, 3, 10);
+        //---AFD nuevoAFD = afnParaAFD.convertirAFN();
 
-        //System.out.println(uniones.toString());
+        //---System.out.println(nuevoAFD.toString());
+        //System.out.println(afnParaAFD.toString());
 
-<<<<<<< Updated upstream
-        AFD nuevoAFD = uniones.convertirAFN();
-
-        System.out.println(nuevoAFD.toString());
-=======
 //        AFN basico1 = new AFN();
 //        basico1 = basico1.crearBasico('L');
 //        AFN basico2 = new AFN();
@@ -253,12 +248,12 @@ public class Compilador {
 //        AFD nuevoAFD = uniones.convertirAFN();
 //
 //        System.out.println(nuevoAFD.toString());
-         GeneradorAnalizadorLex gen = new GeneradorAnalizadorLex("hola");
-         AFD fin = gen.getAFDAnalizado();
-         List<List<Integer>> tabla = fin.getTabla();
-         System.out.println(tabla.toString());
-         System.out.println(fin.toString());
->>>>>>> Stashed changes
+          
+            GeneradorAnalizadorLex gen = new GeneradorAnalizadorLex("hola");
+            AFD fin = gen.getAFDAnalizado();
+            List<List<Integer>> tabla = fin.getTabla();
+            System.out.println(tabla.toString());
+            System.out.println(fin.toString());
     }
     
 }

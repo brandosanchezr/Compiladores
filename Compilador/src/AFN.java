@@ -1,4 +1,3 @@
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -24,8 +23,8 @@ public class AFN {
     Estado edoInicial;
     List<Character> alfabeto;
     List<Estado> edosAceptacion;
-    List<Estado> edosAFN;
-
+    List<Estado> edosAFN;    
+    
     public AFN() {
         this.alfabeto = new ArrayList<Character>();
     }
@@ -91,58 +90,21 @@ public class AFN {
     
     //Metodos
     
-<<<<<<< Updated upstream
-    public AFN crearBasico(Character c){
-        
-=======
     public AFN crearBasico(Character c, Character c_2,int idAFN){
 
-            for(int i=0; i <= (int)(c_2-c); i++)
+        for(int i=0; i <= (int)(c_2-c); i++)
             {
                 char n_c = (char)(((int)c)+i);
                 if(!this.getAlfabeto().contains(n_c));
                     this.alfabeto.add(n_c);
             }
-
-            if(!this.getAlfabeto().contains(c));
-                this.alfabeto.add(c);
-
-            
-            List<Estado> edosAFN = new ArrayList<Estado>();
-            
-            Estado segundoEdo = new Estado(1, null, false, true, idAFN);
-            
-            Transicion unaTransicion = new Transicion(c, c_2);
-            unaTransicion.agregarDestino(segundoEdo);
-            
-            List<Transicion> transiciones = new ArrayList<Transicion>();
-            transiciones.add(unaTransicion);
-            
-            Estado edoInicial = new Estado(0,transiciones,true,false,0);
-            edosAFN.add(edoInicial);
-            edosAFN.add(segundoEdo);
+       
         
-            List<Estado> edosAceptacion = new ArrayList<Estado>();
-            
-            for (Iterator<Estado> iterator = edosAFN.iterator(); iterator.hasNext();) {
-                Estado next = iterator.next();
-                if(next.isEdoFinal())
-                    edosAceptacion.add(next);
-            }
-        
-        return new AFN(0, edoInicial, alfabeto, edosAceptacion, edosAFN);
-    }
-    
-    public AFN crearBasico(Character c,int idAFN){
->>>>>>> Stashed changes
-        if(!this.getAlfabeto().contains(c));
-            this.alfabeto.add(c);
-    
         List<Estado> edosAFN = new ArrayList<Estado>();
         
-        Estado segundoEdo = new Estado(1, null, false, true, 10);
+        Estado segundoEdo = new Estado(1, null, false, true, idAFN);
         
-        Transicion unaTransicion = new Transicion(c);
+        Transicion unaTransicion = new Transicion(c, c_2);
         unaTransicion.agregarDestino(segundoEdo);
         
         List<Transicion> transiciones = new ArrayList<Transicion>();
@@ -151,7 +113,7 @@ public class AFN {
         Estado edoInicial = new Estado(0,transiciones,true,false,0);
         edosAFN.add(edoInicial);
         edosAFN.add(segundoEdo);
-    
+     
         List<Estado> edosAceptacion = new ArrayList<Estado>();
         
         for (Iterator<Estado> iterator = edosAFN.iterator(); iterator.hasNext();) {
@@ -162,7 +124,36 @@ public class AFN {
         
         return new AFN(0, edoInicial, alfabeto, edosAceptacion, edosAFN);
     }
+    public AFN crearBasico(Character c, int idAFN){
 
+        if(!this.getAlfabeto().contains(c));
+            this.alfabeto.add(c);
+       
+        
+        List<Estado> edosAFN = new ArrayList<Estado>();
+        
+        Estado segundoEdo = new Estado(1, null, false, true, idAFN);
+        
+        Transicion unaTransicion = new Transicion(c);
+        unaTransicion.agregarDestino(segundoEdo);
+        
+        List<Transicion> transiciones = new ArrayList<Transicion>();
+        transiciones.add(unaTransicion);
+        
+        Estado edoInicial = new Estado(0,transiciones,true,false,0);
+        edosAFN.add(edoInicial);
+        edosAFN.add(segundoEdo);
+     
+        List<Estado> edosAceptacion = new ArrayList<Estado>();
+        
+        for (Iterator<Estado> iterator = edosAFN.iterator(); iterator.hasNext();) {
+            Estado next = iterator.next();
+            if(next.isEdoFinal())
+                edosAceptacion.add(next);
+        }
+        
+        return new AFN(0, edoInicial, alfabeto, edosAceptacion, edosAFN);
+    }
     public AFN unir(AFN unAFN,int idNuevoAFN,int token){
         List<Character> nuevoAlfabeto = new ArrayList<Character>();
         
@@ -173,8 +164,8 @@ public class AFN {
 
         
         //EPSILON INICIALES
-        Transicion epsilon1 = new Transicion('ɛ');
-        Transicion epsilon2 = new Transicion('ɛ');
+        Transicion epsilon1 = new Transicion('ɛ','ɛ');
+        Transicion epsilon2 = new Transicion('ɛ','ɛ');
                 //Set inicial = false
         this.getEdoInicial().setEdoInicial(false);
         unAFN.getEdoInicial().setEdoInicial(false);
@@ -191,8 +182,8 @@ public class AFN {
         int numEdos= this.getEdosAFN().size() + unAFN.getEdosAFN().size();
         Estado nuevoFinal = new Estado (numEdos+1,null,false,true,token);
         
-        Transicion epsilon3 = new Transicion('ɛ');
-        Transicion epsilon4 = new Transicion('ɛ');
+        Transicion epsilon3 = new Transicion('ɛ','ɛ');
+        Transicion epsilon4 = new Transicion('ɛ','ɛ');
         
         epsilon3.agregarDestino(nuevoFinal);
         epsilon4.agregarDestino(nuevoFinal);
@@ -216,6 +207,7 @@ public class AFN {
         for (int i=0;i < this.getEdosAFN().size();i++){
             Estado aux = (Estado) this.getEdosAFN().get(i);
             aux.setId(nuevoId);
+            aux.setToken(0);
             if(i==this.getEdosAFN().size()-1){
                 aux.setEdoFinal(false);    // Ya no es estado final
                 if(aux.getTransciciones()!=null){
@@ -236,6 +228,7 @@ public class AFN {
         for(int j = 0; j< unAFN.getEdosAFN().size();j++){
             Estado aux= (Estado) unAFN.getEdosAFN().get(j);
             aux.setId(nuevoId);
+            aux.setToken(0);
             if(j==unAFN.getEdosAFN().size()-1){
                 aux.setEdoFinal(false);
                 if(aux.getTransciciones()!=null){
@@ -307,20 +300,20 @@ public class AFN {
       nuevoAlfabeto.addAll(this.getAlfabeto());
       
       //Epsilon interno Final -> Inicial
-      Transicion epsilon1 = new Transicion('ɛ');
+      Transicion epsilon1 = new Transicion('ɛ','ɛ');
       epsilon1.agregarDestino(this.getEdoInicial());
       List<Transicion> interna = new ArrayList<>();
       interna.add(epsilon1);
       
       //Epsilon inicial
-      Transicion epsilon2 = new Transicion('ɛ');
+      Transicion epsilon2 = new Transicion('ɛ','ɛ');
       epsilon2.agregarDestino(this.getEdoInicial());
       List<Transicion> inicialTrans = new ArrayList<>();
       inicialTrans.add(epsilon2);
       Estado nuevoInicial =new Estado(0,inicialTrans,true,false,0);
       
       //Epsilon final
-      Transicion epsilon3 = new Transicion('ɛ');
+      Transicion epsilon3 = new Transicion('ɛ','ɛ');
       Estado nuevoFinal = new Estado(this.getEdosAFN().size()+1,null,false,true,token);
       epsilon3.agregarDestino(nuevoFinal);
       interna.add(epsilon3);
@@ -364,23 +357,23 @@ public class AFN {
       nuevoAlfabeto.addAll(this.getAlfabeto());
       
       //Epsilon interno Final -> Inicial
-      Transicion epsilon1 = new Transicion('ɛ');
+      Transicion epsilon1 = new Transicion('ɛ','ɛ');
       epsilon1.agregarDestino(this.getEdoInicial());
       List<Transicion> interna = new ArrayList<>();
       interna.add(epsilon1);
       
       //Epsilon inicial
-      Transicion epsilon2 = new Transicion('ɛ');
+      Transicion epsilon2 = new Transicion('ɛ','ɛ');
       epsilon2.agregarDestino(this.getEdoInicial());
       List<Transicion> inicialTrans = new ArrayList<>();
       
       //Epsilon final
-      Transicion epsilon3 = new Transicion('ɛ');
+      Transicion epsilon3 = new Transicion('ɛ','ɛ');
       Estado nuevoFinal = new Estado(this.getEdosAFN().size()+1,null,false,true,token);
       epsilon3.agregarDestino(nuevoFinal);
       interna.add(epsilon3);
       
-      Transicion epsilonKleene =new Transicion('ɛ');
+      Transicion epsilonKleene =new Transicion('ɛ','ɛ');
       epsilonKleene.agregarDestino(nuevoFinal);
       inicialTrans.add(epsilon2);
       inicialTrans.add(epsilonKleene);
@@ -427,17 +420,17 @@ public class AFN {
       List<Transicion> interna = new ArrayList<>();
       
       //Epsilon inicial
-      Transicion epsilon2 = new Transicion('ɛ');
+      Transicion epsilon2 = new Transicion('ɛ','ɛ');
       epsilon2.agregarDestino(this.getEdoInicial());
       List<Transicion> inicialTrans = new ArrayList<>();
       
       //Epsilon final
-      Transicion epsilon3 = new Transicion('ɛ');
+      Transicion epsilon3 = new Transicion('ɛ','ɛ');
       Estado nuevoFinal = new Estado(this.getEdosAFN().size()+1,null,false,true,token);
       epsilon3.agregarDestino(nuevoFinal);
       interna.add(epsilon3);
       
-      Transicion epsilonKleene =new Transicion('ɛ');
+      Transicion epsilonKleene =new Transicion('ɛ','ɛ');
       epsilonKleene.agregarDestino(nuevoFinal);
       inicialTrans.add(epsilon2);
       inicialTrans.add(epsilonKleene);
@@ -535,11 +528,7 @@ public class AFN {
         
         if(unEstado.getTransciciones()!= null){
             unEstado.getTransciciones().stream().forEach((t)->{
-<<<<<<< Updated upstream
-                if(t.simbolo == simbolo){
-=======
-                if(t.getSimbolo() <= simbolo && simbolo <= t.getSimbolo2()){
->>>>>>> Stashed changes
+                if(t.getSimbolo() <= simbolo && simbolo<= t.getSimbolo2()){
                     R.addAll(t.getEdosDestinos());
                 }
             });
@@ -579,9 +568,6 @@ public class AFN {
         
         return false;
     }
-    
-<<<<<<< Updated upstream
-=======
     public AFN unirParaAFD(List<AFN> listaAFN,int idAFN){
        int  numEstados=1;
        List<Transicion> inicialTrans = new ArrayList<>();
@@ -626,8 +612,8 @@ public class AFN {
            
        }
        return new AFN(idAFN,nuevoInicial,nuevoAlfabeto,nuevoEdosAceptacion,nuevoEdosAFN);  
-    }    
->>>>>>> Stashed changes
+    }
+    
     public AFD convertirAFN(){
         
         List<List<Integer>> tablaTrancisiones = new ArrayList<>();
@@ -672,7 +658,7 @@ public class AFN {
                         if( S.getEstados().equals(Sn.getEstados()) ) 
                         {
                             repetido = true;
-                            Transicion t = new Transicion(c);
+                            Transicion t = new Transicion(c,c);
                             t.agregarDestino(nuevosEstados.get(S.getId()));
                             List<Transicion> tn =  nuevosEstados.get(idEstadoAnalizado).getTransciciones();
                             tn.add(t);
@@ -686,7 +672,7 @@ public class AFN {
                         if( S.getEstados().equals(Sn.getEstados()) ) 
                         {
                             repetido = true;
-                            Transicion t = new Transicion(c);
+                            Transicion t = new Transicion(c,c);
                             t.agregarDestino(nuevosEstados.get(S.getId()));
                             List<Transicion> tn =  nuevosEstados.get(idEstadoAnalizado).getTransciciones();
                             tn.add(t);
@@ -707,14 +693,14 @@ public class AFN {
                             if(est.isEdoFinal())
                             {
                                 nuevosEstados.get(ie).setEdoFinal(true);
-                                nuevosEstados.get(ie).setToken(est.token);
+                                nuevosEstados.get(ie).setToken(est.getToken());
                                 nuevosEstadosAceptacion.add(nuevosEstados.get(ie));
                             }
                         }
 
                         //Agrega la transicion
                         List<Transicion> tn = nuevosEstados.get(idEstadoAnalizado).getTransciciones();
-                        Transicion t = new Transicion(c);
+                        Transicion t = new Transicion(c,c);
                         t.agregarDestino(nuevosEstados.get(ie));
                         tn.add(t);
                         nuevosEstados.get(idEstadoAnalizado).setTransciciones(tn);

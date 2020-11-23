@@ -59,7 +59,7 @@ public class GeneradorAnalizadorLex {
         simb4 = simb4.concatenar(simb5, SIMB, SIMB);
         simb1 = simb1.unir(simb4, SIMB, SIMB);
         clasesLexicas.add(simb1);
-        System.out.println(simb1.getAlfabeto().toString());
+        
         AFN afnParaAfd = new AFN();
         afnParaAfd = afnParaAfd.unirParaAFD(clasesLexicas, 0);
         AFD nuevoAfd = afnParaAfd.convertirAFN();
@@ -119,4 +119,3 @@ public class GeneradorAnalizadorLex {
     }
     */
 }
-

@@ -1,4 +1,3 @@
-
 import java.util.ArrayList;
 import java.util.Iterator;
   import java.util.List;
@@ -18,18 +17,18 @@ import java.util.Iterator;
  */
 public class Transicion {
     
-    Character simbolo;
-    List<Estado> edosDestinos = new ArrayList<>();
+    private Character simbolo;
+    private Character simbolo_2;
+    private List<Estado> edosDestinos = new ArrayList<>();
 
-    public Transicion(char simbolo) {
+    public Transicion(char simbolo, char simbolo_2) {
         this.simbolo = simbolo;
+        this.simbolo_2 = simbolo_2;
     }
-
     public Transicion(char simbolo) {
         this.simbolo = simbolo;
         this.simbolo_2 = simbolo;
     }
-
     public Transicion() {
 
     }
@@ -45,7 +44,6 @@ public class Transicion {
     public char getSimbolo() {
         return simbolo;
     }
-
     public char getSimbolo2() {
         return simbolo_2;
     }
@@ -63,7 +61,7 @@ public class Transicion {
         this.simbolo = simbolo;
         this.simbolo_2 = simbolo2;
     }
-
+    
     private List<Integer> getIdEdos(){
         List<Integer> idEdos = new ArrayList<>();
         
@@ -74,13 +72,7 @@ public class Transicion {
     } 
     @Override
     public String toString() {
-<<<<<<< Updated upstream
-        return "\n\t\tSimbolo: " + simbolo + ", Estados Destinos: " + getIdEdos().toString();
-=======
-        return String.format(
-            "\n\t\tSimbolo_1: " + simbolo + " Simbolo_2: "+ simbolo_2 + ", Estados Destinos: " + getIdEdos().toString()
-        );
->>>>>>> Stashed changes
+        return "\n\t\tSimbolo_1: " + simbolo + " Simbolo_2: "+ simbolo_2 + ", Estados Destinos: " + getIdEdos().toString();
     }
     
     
