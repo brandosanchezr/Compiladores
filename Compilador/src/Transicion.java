@@ -25,6 +25,11 @@ public class Transicion {
         this.simbolo = simbolo;
     }
 
+    public Transicion(char simbolo) {
+        this.simbolo = simbolo;
+        this.simbolo_2 = simbolo;
+    }
+
     public Transicion() {
 
     }
@@ -41,14 +46,24 @@ public class Transicion {
         return simbolo;
     }
 
+    public char getSimbolo2() {
+        return simbolo_2;
+    }
+
     public void setEdosDestinos(List<Estado> edosDestinos) {
         this.edosDestinos = edosDestinos;
     }
 
     public void setSimbolo(char simbolo) {
         this.simbolo = simbolo;
+        this.simbolo_2 = simbolo;
     }
     
+    public void setSimbolo(char simbolo, char simbolo2) {
+        this.simbolo = simbolo;
+        this.simbolo_2 = simbolo2;
+    }
+
     private List<Integer> getIdEdos(){
         List<Integer> idEdos = new ArrayList<>();
         
@@ -59,7 +74,13 @@ public class Transicion {
     } 
     @Override
     public String toString() {
+<<<<<<< Updated upstream
         return "\n\t\tSimbolo: " + simbolo + ", Estados Destinos: " + getIdEdos().toString();
+=======
+        return String.format(
+            "\n\t\tSimbolo_1: " + simbolo + " Simbolo_2: "+ simbolo_2 + ", Estados Destinos: " + getIdEdos().toString()
+        );
+>>>>>>> Stashed changes
     }
     
     

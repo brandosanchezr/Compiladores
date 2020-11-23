@@ -124,14 +124,107 @@ public class Compilador {
 //        irA.stream().forEach( (edo)->{
 //            System.out.println(edo.getId());
 //        } );
+<<<<<<< Updated upstream
 
 
+=======
+/*      //------EJERCICIO------------------
+        //TOKEN 10
+>>>>>>> Stashed changes
         AFN basico1 = new AFN();
         basico1 = basico1.crearBasico('L');
         AFN basico2 = new AFN();
         basico2 = basico2.crearBasico('L');
         AFN basico3 = new AFN();
+<<<<<<< Updated upstream
         basico3 = basico3.crearBasico('D');
+=======
+        basico3 = basico3.crearBasico('D','D',5);
+        AFN uniones = basico2.unir(basico3, 0, 5);
+            uniones = uniones.cerrarKleen(1, 5);
+        AFN token10 = new AFN();
+            token10 = basico1.concatenar(uniones, 2, 10);
+        //TOKEN 20
+        AFN basico4 = new AFN();
+            basico4 = basico4.crearBasico('D','D',5);
+        AFN token20 = new AFN();
+            token20 = basico4.cerrarTransitiva(3, 20);
+        //TOKEN 30
+        AFN basico5 = new AFN();
+            basico5 = basico5.crearBasico('D','D', 5);
+        AFN deTrans1 = new AFN();
+            deTrans1 = basico5.cerrarTransitiva(4, 5);
+        AFN punto = new AFN();
+            punto = punto.crearBasico('.','.', 5);
+            deTrans1 = deTrans1.concatenar(punto, 5, 5);
+        AFN basico6 = new AFN();
+            basico6 = basico6.crearBasico('D','D', 5);
+        AFN deTrans2 = new AFN();
+            deTrans2 = basico6.cerrarTransitiva(6, 5);
+        AFN token30 = new AFN();
+            token30= deTrans1.concatenar(deTrans2, 7, 30);
+        //TOKEN 4O
+        AFN token40 = new AFN();
+            token40 = token40.crearBasico('M','M', 40);
+        //TOKEN 50
+        AFN token50 = new AFN();
+            token50 = token50.crearBasico('P','P', 50);
+        //TOKEN 60
+        AFN basico7 = new AFN();
+            basico7 = basico7.crearBasico('E','E', 5);
+        AFN basico8 = new AFN();
+            basico8 = basico8.crearBasico('T','T', 5);
+        AFN union = new AFN();
+            union = basico7.unir(basico8, 8, 5);
+        AFN token60 = new AFN();
+            token60 = union.cerrarTransitiva(9, 60);
+        //Unir para AFD
+        List<AFN> aFNs = new ArrayList<>();
+            aFNs.add(token10);
+            aFNs.add(token20);
+            aFNs.add(token30);
+            aFNs.add(token40);
+            aFNs.add(token50);
+            aFNs.add(token60);
+        AFN afnParaAFD = new AFN();
+            afnParaAFD = afnParaAFD.unirParaAFD(aFNs, 1);
+        AFD nuevoAFD = afnParaAFD.convertirAFN();
+        String sigma = "DD.DDTTLLDEMEEP";
+        AnalizadorLexico analizarNuevoAFD = new AnalizadorLexico(nuevoAFD,sigma);
+        ResultadoAnalizadorLex yyLex1= new ResultadoAnalizadorLex();
+                                yyLex1 = analizarNuevoAFD.yyLex();  //primer yyLex  DD,DD
+                                System.out.println(yyLex1.toString());
+                                yyLex1 = analizarNuevoAFD.yyLex();  //segudno yyLex     TT
+                                System.out.println(yyLex1.toString());
+                                yyLex1 = analizarNuevoAFD.yyLex();  //tercer yyLex  LLD
+                                System.out.println(yyLex1.toString());
+                                
+                                analizarNuevoAFD.regresarToken();   //PRUEBA REGRESAR TOKEN
+                                
+                                yyLex1 = analizarNuevoAFD.yyLex();  //cuarto yyLex     E
+                                System.out.println(yyLex1.toString());
+                                yyLex1 = analizarNuevoAFD.yyLex();  //quinto yyLex      M
+                                System.out.println(yyLex1.toString());
+                                yyLex1 = analizarNuevoAFD.yyLex();  //sexto yyLex       EE
+                                System.out.println(yyLex1.toString());
+                                yyLex1 = analizarNuevoAFD.yyLex();  //septimo yyLex     P
+                                System.out.println(yyLex1.toString());
+                                yyLex1 = analizarNuevoAFD.yyLex();  //octavo yyLex      FIN 
+                                System.out.println(yyLex1.toString());
+*/
+
+
+        //---System.out.println(nuevoAFD.toString());
+
+        //uniones = uniones.cerrarKleen(1, 10);
+        //uniones = basico1.concatenar(uniones, 3, 10);
+        //---List<AFN> aFNs=new ArrayList<>();
+        //---aFNs.add(basico1);
+        //---aFNs.add(uniones);
+        //---AFN afnParaAFD = new AFN();
+        //---afnParaAFD = afnParaAFD.unirParaAFD(aFNs,1);
+        //System.out.println(uniones.toString());
+>>>>>>> Stashed changes
 
         AFN uniones = basico2.unir(basico3, 0, 10);
         uniones = uniones.cerrarKleen(1, 10);
@@ -139,9 +232,33 @@ public class Compilador {
 
         //System.out.println(uniones.toString());
 
+<<<<<<< Updated upstream
         AFD nuevoAFD = uniones.convertirAFN();
 
         System.out.println(nuevoAFD.toString());
+=======
+//        AFN basico1 = new AFN();
+//        basico1 = basico1.crearBasico('L');
+//        AFN basico2 = new AFN();
+//        basico2 = basico2.crearBasico('L');
+//        AFN basico3 = new AFN();
+//        basico3 = basico3.crearBasico('D');
+//
+//        AFN uniones = basico2.unir(basico3, 0, 10);
+//        uniones = uniones.cerrarKleen(1, 10);
+//        uniones = basico1.concatenar(uniones, 3, 10);
+//
+//        //System.out.println(uniones.toString());
+//
+//        AFD nuevoAFD = uniones.convertirAFN();
+//
+//        System.out.println(nuevoAFD.toString());
+         GeneradorAnalizadorLex gen = new GeneradorAnalizadorLex("hola");
+         AFD fin = gen.getAFDAnalizado();
+         List<List<Integer>> tabla = fin.getTabla();
+         System.out.println(tabla.toString());
+         System.out.println(fin.toString());
+>>>>>>> Stashed changes
     }
     
 }
