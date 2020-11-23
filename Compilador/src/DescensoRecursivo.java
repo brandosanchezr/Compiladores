@@ -176,7 +176,8 @@ public class DescensoRecursivo {
     public AFN getAfn()
     {
         afnDeLaExpresion = new AFN();
-        E(afnDeLaExpresion);
-        return afnDeLaExpresion;
+        boolean iniciar = E(afnDeLaExpresion);
+        if(iniciar) return afnDeLaExpresion;
+        return null;
     }
 }

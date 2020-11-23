@@ -251,9 +251,13 @@ public class Compilador {
           
             GeneradorAnalizadorLex gen = new GeneradorAnalizadorLex("hola");
             AFD fin = gen.getAFDAnalizado();
-            List<List<Integer>> tabla = fin.getTabla();
-            System.out.println(tabla.toString());
-            System.out.println(fin.toString());
+            if(fin==null) System.out.println("La cadena no era valida");
+            else{
+                List<List<Integer>> tabla = fin.getTabla();
+                System.out.println(tabla.toString());
+                System.out.println(fin.toString());
+            }
+            
     }
     
 }
