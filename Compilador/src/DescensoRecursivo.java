@@ -151,7 +151,11 @@ public class DescensoRecursivo {
                         t3 = lexic.yyLex();
                         if(t3.token == C_D)
                         {
-                            f.copiar(f.crearBasico(t.lexema.charAt(0), t2.lexema.charAt(0), token));
+                            char c1 = t.lexema.charAt(0);
+                            if(c1 =='\\') c1 = t.lexema.charAt(1);
+                            char c2 = t2.lexema.charAt(0);
+                            if(c2 =='\\') c2 = t2.lexema.charAt(1);
+                            f.copiar(f.crearBasico(c1, c2, token));
                             return true;
                         }
                     }
@@ -161,7 +165,9 @@ public class DescensoRecursivo {
         }
         else if(t.token == SIMB)
         {
-            f.copiar(f.crearBasico(t.lexema.charAt(0), token));
+            char c = t.lexema.charAt(0);
+            if(c=='\\') c = t.lexema.charAt(1);
+            f.copiar(f.crearBasico(c, token));
             return true;
         }
         return false;
