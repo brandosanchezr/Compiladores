@@ -136,7 +136,7 @@ public class AFN {
         
         Estado segundoEdo = new Estado(1, null, false, true, idAFN);
         
-        Transicion unaTransicion = new Transicion(c, c_2);
+        Transicion unaTransicion = new Transicion(c);
         unaTransicion.agregarDestino(segundoEdo);
         
         List<Transicion> transiciones = new ArrayList<Transicion>();
