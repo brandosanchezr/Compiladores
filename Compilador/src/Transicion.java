@@ -22,12 +22,14 @@ public class Transicion {
     private List<Estado> edosDestinos = new ArrayList<>();
 
     public Transicion(char simbolo, char simbolo_2) {
+
         this.simbolo = simbolo;
         this.simbolo_2 = simbolo_2;
     }
     public Transicion(char simbolo) {
         this.simbolo = simbolo;
         this.simbolo_2 = simbolo;
+
     }
     public Transicion() {
 

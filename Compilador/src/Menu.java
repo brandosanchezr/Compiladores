@@ -39,6 +39,7 @@ public class Menu {
         System.out.println("7.Cerradura transitiva.");
         System.out.println("8.Cerradura kleen.");
         System.out.println("9.Salir.");
+
         
         while(out){
 
@@ -78,10 +79,11 @@ public class Menu {
                 case '8':
                     elegirAFNaCerrarK();
                     break;
-                
+
                 case '9':
                     out = false;
                     break;
+
                 default:
                     System.out.println("Elige opcion valida.");
             }

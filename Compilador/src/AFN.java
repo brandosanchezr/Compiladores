@@ -25,6 +25,7 @@ public class AFN {
     List<Estado> edosAceptacion;
     List<Estado> edosAFN;    
     
+
     public AFN() {
         this.alfabeto = new ArrayList<Character>();
     }
@@ -92,6 +93,7 @@ public class AFN {
     
     public AFN crearBasico(Character c, Character c_2,int idAFN){
 
+
         for(int i=0; i <= (int)(c_2-c); i++)
             {
                 char n_c = (char)(((int)c)+i);
@@ -134,7 +136,7 @@ public class AFN {
         
         Estado segundoEdo = new Estado(1, null, false, true, idAFN);
         
-        Transicion unaTransicion = new Transicion(c);
+        Transicion unaTransicion = new Transicion(c, c_2);
         unaTransicion.agregarDestino(segundoEdo);
         
         List<Transicion> transiciones = new ArrayList<Transicion>();
@@ -528,7 +530,9 @@ public class AFN {
         
         if(unEstado.getTransciciones()!= null){
             unEstado.getTransciciones().stream().forEach((t)->{
+
                 if(t.getSimbolo() <= simbolo && simbolo<= t.getSimbolo2()){
+
                     R.addAll(t.getEdosDestinos());
                 }
             });

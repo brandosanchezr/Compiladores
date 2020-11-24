@@ -153,11 +153,11 @@ public class AFD extends AFN{
 
     @Override
     public String toString() { 
-        return String.format("ID AFN: " + id + "\n" +
-                             "Estado inicial: " + edoInicial.toString() + "\n" +
-                             "Alfabeto: " + alfabeto.toString() + "\n" +
-                             "Estados de aceptacion: " + edosAceptacion.toString() + "\n" +
-                             "Estados del AFD: " + edosAFN.toString() +"\n" +
+        return String.format("ID AFN: " + getId() + "\n" +
+                             "Estado inicial: " + getEdoInicial().toString() + "\n" +
+                             "Alfabeto: " + getAlfabeto().toString() + "\n" +
+                             "Estados de aceptacion: " + getEdosAceptacion().toString() + "\n" +
+                             "Estados del AFD: " + getEdosAFN().toString() +"\n" +
                              "Tabla AFD: " + tabla.toString() +"\n"
         ); 
     }

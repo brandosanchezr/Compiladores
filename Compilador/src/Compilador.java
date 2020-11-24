@@ -135,7 +135,9 @@ public class Compilador {
 //        irA.stream().forEach( (edo)->{
 //            System.out.println(edo.getId());
 //        } );
+
 /*      //------EJERCICIO------------------
+
         //TOKEN 10
         AFN basico1 = new AFN();
         basico1 = basico1.crearBasico('L','L',5);
@@ -215,6 +217,7 @@ public class Compilador {
                                 yyLex1 = analizarNuevoAFD.yyLex();  //octavo yyLex      FIN 
                                 System.out.println(yyLex1.toString());
 */                                
+
         //---System.out.println(nuevoAFD.toString());
             
             
@@ -262,7 +265,7 @@ public class Compilador {
                 System.out.println(fin.toString());
                 System.out.println(fin2.toString());
             }
-            
+ 
     }
     
 }
