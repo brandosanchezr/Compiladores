@@ -135,7 +135,9 @@ public class Compilador {
 //        irA.stream().forEach( (edo)->{
 //            System.out.println(edo.getId());
 //        } );
-      //------EJERCICIO------------------
+
+/*      //------EJERCICIO------------------
+
         //TOKEN 10
         AFN basico1 = new AFN();
         basico1 = basico1.crearBasico('L','L',5);
@@ -214,7 +216,8 @@ public class Compilador {
                                 System.out.println(yyLex1.toString());
                                 yyLex1 = analizarNuevoAFD.yyLex();  //octavo yyLex      FIN 
                                 System.out.println(yyLex1.toString());
-                                
+*/                                
+
         //---System.out.println(nuevoAFD.toString());
             
             
@@ -248,7 +251,21 @@ public class Compilador {
 //        AFD nuevoAFD = uniones.convertirAFN();
 //
 //        System.out.println(nuevoAFD.toString());
+          
+            GeneradorAnalizadorLex gen = new GeneradorAnalizadorLex("hola");
+            AFD fin = gen.getAFDAnalizado();
+            if(fin==null) System.out.println("La cadena no era valida");
+            else{
+                fin.crearArchivoAFD("PruebaAFDTexto");
 
+                AFD fin2 = new AFD("PruebaAFDTexto"); //Este afd se genera con el archivo generado por fin
+
+                //List<List<Integer>> tabla = fin2.getTabla();
+                //System.out.println(tabla.toString());
+                System.out.println(fin.toString());
+                System.out.println(fin2.toString());
+            }
+ 
     }
     
 }

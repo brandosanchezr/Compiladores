@@ -1,4 +1,3 @@
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -20,11 +19,12 @@ import java.util.stream.Collectors;
  */
 public class AFN {
     
-    private int id;
-    private Estado edoInicial;
-    private List<Character> alfabeto;
-    private List<Estado> edosAceptacion;
-    private List<Estado> edosAFN;
+    int id;
+    Estado edoInicial;
+    List<Character> alfabeto;
+    List<Estado> edosAceptacion;
+    List<Estado> edosAFN;    
+    
 
     public AFN() {
         this.alfabeto = new ArrayList<Character>();
@@ -38,6 +38,14 @@ public class AFN {
         this.edosAFN = edosAFN;
     }
     
+    public void copiar(AFN f)
+    {
+        this.id = f.id;
+        this.edoInicial = f.edoInicial;
+        this.alfabeto = f.alfabeto;
+        this.edosAceptacion = f.edosAceptacion;
+        this.edosAFN = f.edosAFN;
+    }
     //-----------------  BLOQUE GET  -----------------
     public int getId() {
         return id;
@@ -85,6 +93,41 @@ public class AFN {
     
     public AFN crearBasico(Character c, Character c_2,int idAFN){
 
+
+        for(int i=0; i <= (int)(c_2-c); i++)
+            {
+                char n_c = (char)(((int)c)+i);
+                if(!this.getAlfabeto().contains(n_c));
+                    this.alfabeto.add(n_c);
+            }
+       
+        
+        List<Estado> edosAFN = new ArrayList<Estado>();
+        
+        Estado segundoEdo = new Estado(1, null, false, true, idAFN);
+        
+        Transicion unaTransicion = new Transicion(c, c_2);
+        unaTransicion.agregarDestino(segundoEdo);
+        
+        List<Transicion> transiciones = new ArrayList<Transicion>();
+        transiciones.add(unaTransicion);
+        
+        Estado edoInicial = new Estado(0,transiciones,true,false,0);
+        edosAFN.add(edoInicial);
+        edosAFN.add(segundoEdo);
+     
+        List<Estado> edosAceptacion = new ArrayList<Estado>();
+        
+        for (Iterator<Estado> iterator = edosAFN.iterator(); iterator.hasNext();) {
+            Estado next = iterator.next();
+            if(next.isEdoFinal())
+                edosAceptacion.add(next);
+        }
+        
+        return new AFN(0, edoInicial, alfabeto, edosAceptacion, edosAFN);
+    }
+    public AFN crearBasico(Character c, int idAFN){
+
         if(!this.getAlfabeto().contains(c));
             this.alfabeto.add(c);
        
@@ -113,7 +156,6 @@ public class AFN {
         
         return new AFN(0, edoInicial, alfabeto, edosAceptacion, edosAFN);
     }
-    
     public AFN unir(AFN unAFN,int idNuevoAFN,int token){
         List<Character> nuevoAlfabeto = new ArrayList<Character>();
         
@@ -488,7 +530,9 @@ public class AFN {
         
         if(unEstado.getTransciciones()!= null){
             unEstado.getTransciciones().stream().forEach((t)->{
-                if(t.getSimbolo() <= simbolo && simbolo<= t.getSimbolo()){
+
+                if(t.getSimbolo() <= simbolo && simbolo<= t.getSimbolo2()){
+
                     R.addAll(t.getEdosDestinos());
                 }
             });
