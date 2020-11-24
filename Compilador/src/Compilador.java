@@ -253,9 +253,14 @@ public class Compilador {
             AFD fin = gen.getAFDAnalizado();
             if(fin==null) System.out.println("La cadena no era valida");
             else{
-                List<List<Integer>> tabla = fin.getTabla();
-                System.out.println(tabla.toString());
+                fin.crearArchivoAFD("PruebaAFDTexto");
+
+                AFD fin2 = new AFD("PruebaAFDTexto"); //Este afd se genera con el archivo generado por fin
+
+                //List<List<Integer>> tabla = fin2.getTabla();
+                //System.out.println(tabla.toString());
                 System.out.println(fin.toString());
+                System.out.println(fin2.toString());
             }
             
     }
