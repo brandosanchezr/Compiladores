@@ -135,7 +135,9 @@ public class Compilador {
 //        irA.stream().forEach( (edo)->{
 //            System.out.println(edo.getId());
 //        } );
-      //------EJERCICIO------------------
+
+/*      //------EJERCICIO------------------
+
         //TOKEN 10
         AFN basico1 = new AFN();
         basico1 = basico1.crearBasico('L','L',5);
@@ -195,24 +197,27 @@ public class Compilador {
         String sigma = "DD.DDTTLLDEMEEP";
         AnalizadorLexico analizarNuevoAFD = new AnalizadorLexico(nuevoAFD,sigma);
         ResultadoAnalizadorLex yyLex1= new ResultadoAnalizadorLex();
-                                yyLex1 = analizarNuevoAFD.yyLex();  //primer yyLex
+                                yyLex1 = analizarNuevoAFD.yyLex();  //primer yyLex  DD,DD
                                 System.out.println(yyLex1.toString());
-                                yyLex1 = analizarNuevoAFD.yyLex();  //segudno yyLex
+                                yyLex1 = analizarNuevoAFD.yyLex();  //segudno yyLex     TT
                                 System.out.println(yyLex1.toString());
-                                yyLex1 = analizarNuevoAFD.yyLex();  //tercer yyLex
-                                System.out.println(yyLex1.toString());
-                                yyLex1 = analizarNuevoAFD.yyLex();  //cuarto yyLex
-                                System.out.println(yyLex1.toString());
-                                yyLex1 = analizarNuevoAFD.yyLex();  //quinto yyLex
-                                System.out.println(yyLex1.toString());
-                                yyLex1 = analizarNuevoAFD.yyLex();  //sexto yyLex
-                                System.out.println(yyLex1.toString());
-                                yyLex1 = analizarNuevoAFD.yyLex();  //septimo yyLex
-                                System.out.println(yyLex1.toString());
-                                yyLex1 = analizarNuevoAFD.yyLex();  //octavo yyLex
+                                yyLex1 = analizarNuevoAFD.yyLex();  //tercer yyLex  LLD
                                 System.out.println(yyLex1.toString());
                                 
+                                analizarNuevoAFD.regresarToken();   //PRUEBA REGRESAR TOKEN
                                 
+                                yyLex1 = analizarNuevoAFD.yyLex();  //cuarto yyLex     E
+                                System.out.println(yyLex1.toString());
+                                yyLex1 = analizarNuevoAFD.yyLex();  //quinto yyLex      M
+                                System.out.println(yyLex1.toString());
+                                yyLex1 = analizarNuevoAFD.yyLex();  //sexto yyLex       EE
+                                System.out.println(yyLex1.toString());
+                                yyLex1 = analizarNuevoAFD.yyLex();  //septimo yyLex     P
+                                System.out.println(yyLex1.toString());
+                                yyLex1 = analizarNuevoAFD.yyLex();  //octavo yyLex      FIN 
+                                System.out.println(yyLex1.toString());
+*/                                
+
         //---System.out.println(nuevoAFD.toString());
             
             
@@ -246,7 +251,21 @@ public class Compilador {
 //        AFD nuevoAFD = uniones.convertirAFN();
 //
 //        System.out.println(nuevoAFD.toString());
+          
+            GeneradorAnalizadorLex gen = new GeneradorAnalizadorLex("hola");
+            AFD fin = gen.getAFDAnalizado();
+            if(fin==null) System.out.println("La cadena no era valida");
+            else{
+                fin.crearArchivoAFD("PruebaAFDTexto");
 
+                AFD fin2 = new AFD("PruebaAFDTexto"); //Este afd se genera con el archivo generado por fin
+
+                //List<List<Integer>> tabla = fin2.getTabla();
+                //System.out.println(tabla.toString());
+                System.out.println(fin.toString());
+                System.out.println(fin2.toString());
+            }
+ 
     }
     
 }

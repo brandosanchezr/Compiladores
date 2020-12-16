@@ -1,4 +1,5 @@
 
+import java.util.ArrayList;
 import java.util.List;
 
 /*
@@ -15,6 +16,8 @@ public class AnalizadorLexico {
     List<List<Integer>> tabla;
     String cadena;
     List<Character> alfabeto;
+    List<List<Integer>> tokensGlobales = new ArrayList<List<Integer>>();
+    int numGlobales;
     //yyLex
     int iniLexem;
     int finLexem;
@@ -29,6 +32,8 @@ public class AnalizadorLexico {
         finLexem = -1;
         auxFinLexem = 0;
         finDeCadena=false;
+        numGlobales=0;
+        tokensGlobales.add(List.of(this.iniLexem,this.auxFinLexem));
         //Revisar que la cadena sea valida con el alfabeto
     }
     public ResultadoAnalizadorLex yyLex(){
@@ -67,6 +72,7 @@ public class AnalizadorLexico {
                         this.setIniLexem(auxFinLexem);
                         this.setFinLexem(-1);
                         //this.setAuxFinLexem(auxFinLexem+1); 
+                        this.agregarTokenGlobal(List.of(this.iniLexem,this.auxFinLexem));
                         return new ResultadoAnalizadorLex(token,lexema);
                     }
             }
@@ -75,7 +81,18 @@ public class AnalizadorLexico {
             return new ResultadoAnalizadorLex(0,"Fin de cadena");
         for(int i=iniLexem;i<=finLexem;i++)
             lexema=lexema+Character.toString(cadena.charAt(i));
+        this.agregarTokenGlobal(List.of(this.iniLexem,this.auxFinLexem));
         return new ResultadoAnalizadorLex(token,lexema);
+    }
+    public void regresarToken(){
+        if(finDeCadena)
+           finDeCadena = false; 
+        if(this.numGlobales!= 0){
+            this.setIniLexem(this.tokensGlobales.get(this.numGlobales-1).get(0));
+            this.setAuxFinLexem(this.tokensGlobales.get(this.numGlobales-1).get(1));
+            this.tokensGlobales.remove(this.numGlobales);
+            this.numGlobales = this.numGlobales -1;
+        }
     }
     
     public void regresarToken(){
@@ -88,6 +105,10 @@ public class AnalizadorLexico {
     }
     public int getToken(int estado){
         return this.tabla.get(estado).get(this.alfabeto.size());
+    }
+    public void agregarTokenGlobal(List<Integer> enteros){
+                this.tokensGlobales.add(enteros);
+                this.numGlobales=this.numGlobales+1;
     }
     
     public void setIniLexem(int nuevaPosicion){
