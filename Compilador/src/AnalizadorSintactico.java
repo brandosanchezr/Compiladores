@@ -25,9 +25,9 @@ public class AnalizadorSintactico {
         lexic = new AnalizadorLexico(unAFD,sigma);
     }
     
-    public boolean Ini(){
+    public boolean Ini(float v){
         int token;
-        if(E()){
+        if(E(v)){
             token = lexic.yyLex().getToken();
             if(token == 0){
                 return true;
@@ -35,10 +35,10 @@ public class AnalizadorSintactico {
         }
         return false;
     }
-    public boolean E(){
-        float w=0;
-        if(T(w)){
-            if(Ep(w))
+    public boolean E(float v){
+        
+        if(T(v)){
+            if(Ep(v))
                 return true;
         }
         return false;
@@ -66,7 +66,7 @@ public class AnalizadorSintactico {
     }
     public boolean T(float w){
         
-        if(F())
+        if(F(w))
             if(Tp(w))
                 return true;
         return false;
@@ -78,7 +78,10 @@ public class AnalizadorSintactico {
         token = lexic.yyLex().getToken();
         
         if(token == 30 || token == 40){ //asumiendo que 30 es el token de PRODUCTO y 40 el de DIVISION
-            if(F())
+            if(F(w))
+                //accion semantica
+                if(token==30){v = v * w;}
+                if(token==40){v = v / w;}
                 if(Tp(v))
                     return true;
             return false;
@@ -90,21 +93,23 @@ public class AnalizadorSintactico {
         
     }
     
-    public boolean F(){
+    public boolean F(float w){
         
         int token;
-        
-        token = lexic.yyLex().getToken();
+        resultLexic = lexic.yyLex();
+        token = resultLexic.getToken();
         //Asumiendo que 50 es PAR_I, 60 PAR_D Y 70 NUM.
         switch(token){
             case 50: 
-                if(E()){
-                    token = lexic.yyLex().getToken();
+                if(E(w)){
+                    
+                    token = resultLexic.getToken();
                     if(token == 60)
                         return true;
                 }
                 return false;
             case 70:
+                w = Character.getNumericValue(resultLexic.getLexema().charAt(0)); 
                 return true;
         }
         return false;
