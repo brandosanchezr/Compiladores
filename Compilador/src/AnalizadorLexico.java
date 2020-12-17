@@ -95,9 +95,7 @@ public class AnalizadorLexico {
         }
     }//listo
     
-    public void regresarToken(){
-        
-    }
+    
     public int buscarTransicion(int estado,char caracter){
         int transicion = alfabeto.indexOf(caracter);;
         int nuevoEdo = tabla.get(estado).get(transicion);
