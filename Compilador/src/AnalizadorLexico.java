@@ -93,7 +93,7 @@ public class AnalizadorLexico {
             this.tokensGlobales.remove(this.numGlobales);
             this.numGlobales = this.numGlobales -1;
         }
-    }
+    }//listo
     
     public int buscarTransicion(int estado,char caracter){
         int transicion = alfabeto.indexOf(caracter);;
