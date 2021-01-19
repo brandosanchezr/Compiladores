@@ -16,7 +16,7 @@ public class AnalizadorLexico {
     List<List<Integer>> tabla;
     String cadena;
     List<Character> alfabeto;
-    List<List<Integer>> tokensGlobales = new ArrayList<List<Integer>>();
+    List<List<Integer>> tokensGlobales = new ArrayList<>();
     int numGlobales;
     //yyLex
     int iniLexem;
@@ -93,9 +93,29 @@ public class AnalizadorLexico {
             this.tokensGlobales.remove(this.numGlobales);
             this.numGlobales = this.numGlobales -1;
         }
-    }//listo
-    
-    
+
+    }
+    //------------- EdoLexic ---------------------
+    public EdoLexic getEdo(){
+        int iniLex=this.tokensGlobales.get(this.numGlobales).get(0);
+        int finLexem =this.tokensGlobales.get(this.numGlobales).get(1);
+        return new EdoLexic(iniLex,finLexem,this.numGlobales);
+    }
+  
+      
+    public void setEdo(EdoLexic edo){
+        if(finDeCadena)
+           finDeCadena = false; 
+        if(this.numGlobales!= 0){
+            this.setIniLexem(edo.getIniLex());
+            this.setAuxFinLexem(edo.getFinLex());
+            for(int i= this.numGlobales;i>edo.getGlobal();i--){
+                this.tokensGlobales.remove(this.numGlobales);
+                this.numGlobales = this.numGlobales -1;
+            }
+        }
+    }
+    // ------------------------------------------
     public int buscarTransicion(int estado,char caracter){
         int transicion = alfabeto.indexOf(caracter);;
         int nuevoEdo = tabla.get(estado).get(transicion);

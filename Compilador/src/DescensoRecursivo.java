@@ -3,6 +3,8 @@
  * @author Alejandro Colin
  * 
  */
+import java.util.ArrayList;
+import java.util.List;
 
 public class DescensoRecursivo {
     AnalizadorLexico lexic;
@@ -19,7 +21,9 @@ public class DescensoRecursivo {
     static int C_D = 90;
     static int GUION = 100;
     static int SIMB = 110;
-
+    List<Regla> ArrReglas;
+    List<String> simbNoTerminales;
+    
     public DescensoRecursivo(AnalizadorLexico lex, int tok)
     {
         lexic = lex;
@@ -180,4 +184,129 @@ public class DescensoRecursivo {
         if(iniciar) return afnDeLaExpresion;
         return null;
     }
+    //--------------- Acciones semánticas ---------------------
+    //  me falta obtener los token "sc,or,simbolo,flecha" de los globales
+    public boolean g(){
+        return reglas();
+    }
+    
+    public boolean reglas(){
+        int tok;
+        int sc = 20; //se cambia por el token que tenga el caracter ';'
+        if(regla()){
+            tok = lexic.yyLex().getToken();
+            if(tok == sc)
+                if(reglasP())
+                    return true;
+            return false;
+        }
+        return false;
+    }
+    
+   public boolean reglasP(){
+       int tok;
+       int sc =20;//se cambia por el token que tenga el caracter ';'
+       EdoLexic e = lexic.getEdo();
+       if(regla()){
+           tok = lexic.yyLex().getToken();
+           if(tok == sc)
+               if(reglasP())
+                   return true;
+           return false;
+       }
+       lexic.setEdo(e); //Equivalente a regresar Token
+       return true;
+   }
+   public boolean regla(){
+       SimbLadoIzq simbLadoIzq = new SimbLadoIzq();
+       int tok;
+       int flecha= 30; //se cambia por el token que tenga el caracter "->"
+       if(ladoIzq(simbLadoIzq)){//Obtenemos la cadena del simbolo del lado Izquierdo
+           tok = lexic.yyLex().getToken();
+           if(tok == flecha) //Tokens.flecha
+               if(ladosDerechos(simbLadoIzq.getStrSimbLadoIzq()))//Pasamos la cadena del simbolo de lado Izquierdo
+                   return true;
+           return false;
+       }
+       return false;
+   }
+   public boolean ladoIzq(SimbLadoIzq s){
+       int tok;
+       tok = lexic.yyLex().getToken();
+       int simbolo = 40;
+       if(tok == simbolo){//Tokens.simbolo
+           s.setStrSimbLadoIzq(lexic.yyLex().getLexema());
+           return true;
+       }
+       return false;
+       }
+   public boolean ladosDerechos(String simbLadoIzq){
+       NodoRegla nodoSimb = new NodoRegla();
+       if(ladoDerecho(nodoSimb)){
+           Regla aux= new Regla(simbLadoIzq,nodoSimb);
+           simbNoTerminales.add(simbLadoIzq);
+           ArrReglas.add(aux);
+           if(ladosDerechosP(simbLadoIzq))
+               return true;
+       }
+       return false;
+   }
+   
+   public boolean ladosDerechosP(String s){
+       int tok;
+       NodoRegla nodoSimb = new NodoRegla();
+       int or= 50;
+       tok= lexic.yyLex().getToken();
+       if(tok == or){
+           if(ladoDerecho(nodoSimb)){
+               Regla aux = new Regla(s,nodoSimb);
+               ArrReglas.add(aux);
+               if(ladosDerechosP(s)){
+                   return true;
+               }
+            return false;
+           }
+           lexic.regresarToken();;
+           return true;
+       }
+       return false;
+   }
+   
+   public boolean ladoDerecho(NodoRegla nodoSimb){
+       return listaSimbolos(nodoSimb);
+   }
+   
+   public boolean listaSimbolos(NodoRegla nodoSimb){
+       NodoRegla nodoAux = new NodoRegla();
+       int tok;
+       int simbolo = 60;
+       tok = lexic.yyLex().getToken();
+       
+       if(tok == simbolo){
+           nodoSimb = new NodoRegla(lexic.yyLex().getLexema());
+           if(listaSimbolosP(nodoAux)){
+               nodoSimb.setEdoSiguiente(nodoAux);
+               return true;
+           }
+       }
+       return false;
+   }
+   public boolean listaSimbolosP(NodoRegla nodoSimb){
+       NodoRegla nodoAux = new NodoRegla();
+       int tok;
+       tok = lexic.yyLex().getToken();
+       int simbolo = 60;
+       if(tok == simbolo){
+           nodoSimb = new NodoRegla(lexic.yyLex().getLexema());
+           if(listaSimbolosP(nodoAux)){
+               nodoSimb.setEdoSiguiente(nodoAux);
+               return true;
+           }
+           return false;
+       }
+       nodoSimb = null;
+       lexic.regresarToken();
+       return true;
+   }
+   
 }
