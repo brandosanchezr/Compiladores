@@ -7,7 +7,7 @@ import java.util.List;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+//version new 12/16/2020
 /**
  *
  * @author Trujillo
@@ -93,6 +93,7 @@ public class AnalizadorLexico {
             this.tokensGlobales.remove(this.numGlobales);
             this.numGlobales = this.numGlobales -1;
         }
+
     }
     //------------- EdoLexic ---------------------
     public EdoLexic getEdo(){
@@ -100,7 +101,8 @@ public class AnalizadorLexico {
         int finLexem =this.tokensGlobales.get(this.numGlobales).get(1);
         return new EdoLexic(iniLex,finLexem,this.numGlobales);
     }
-    
+  
+      
     public void setEdo(EdoLexic edo){
         if(finDeCadena)
            finDeCadena = false; 
