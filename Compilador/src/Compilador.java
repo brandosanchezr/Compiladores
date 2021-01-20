@@ -50,8 +50,8 @@ public class Compilador {
 //        caracter = escaneo.next().charAt(0);
 //        AFN miAFN = new AFN();
 //        miAFN = miAFN.crearBasico(caracter);
-          Menu miMenu = new Menu();
-          miMenu.iniciar();
+         // Menu miMenu = new Menu();
+          //miMenu.iniciar();
         
         
 //        List<Transicion> transiciones_e = new ArrayList<>();
@@ -252,18 +252,30 @@ public class Compilador {
 //
 //        System.out.println(nuevoAFD.toString());
           
-            GeneradorAnalizadorLex gen = new GeneradorAnalizadorLex("hola");
+            GeneradorAnalizadorLex gen = new GeneradorAnalizadorLex("C:\\Users\\Trujillo\\Documents\\GitHub\\Compiladores\\Compilador\\src\\hola");
             AFD fin = gen.getAFDAnalizado();
             if(fin==null) System.out.println("La cadena no era valida");
             else{
-                fin.crearArchivoAFD("PruebaAFDTexto");
-
-                AFD fin2 = new AFD("PruebaAFDTexto"); //Este afd se genera con el archivo generado por fin
-
-                //List<List<Integer>> tabla = fin2.getTabla();
-                //System.out.println(tabla.toString());
+                List<List<Integer>> tabla = fin.getTabla();
+                System.out.println(tabla.toString());
                 System.out.println(fin.toString());
-                System.out.println(fin2.toString());
+            }
+            String cadena= "DD.DDTTLLDEMEEP";
+            boolean allInAlphabet=true;
+            for(int i=0;i<cadena.length();i++)
+                if(!fin.getAlfabeto().contains(cadena.charAt(i)))
+                    allInAlphabet= false;
+            if(allInAlphabet){
+                AnalizadorLexico analizarNuevoAFD = new AnalizadorLexico(fin,cadena);
+                ResultadoAnalizadorLex yyLex1= new ResultadoAnalizadorLex();
+                int token=-1;
+                while(token!=0){
+                    yyLex1 = analizarNuevoAFD.yyLex();
+                    System.out.println(yyLex1.toString());
+                    token = yyLex1.getToken();
+                }
+            }else{
+                System.out.println("Simbolo de cadena no contenido en el alfabeto");
             }
  
     }
