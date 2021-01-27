@@ -47,7 +47,7 @@ public class GeneradorAnalizadorLex {
         clasesLexicas.add(f.crearBasico(')', P_D));
         clasesLexicas.add(f.crearBasico('[', C_I));
         clasesLexicas.add(f.crearBasico(']', C_D));
-        clasesLexicas.add(f.crearBasico('-', GUION));
+        clasesLexicas.add(f.crearBasico('|', GUION));
         AFN simb1, simb2, simb3, simb4, simb5;
         simb1 = f.crearBasico( 'a' , 'z', SIMB);
         simb2 = f.crearBasico( 'A' , 'Z', SIMB);

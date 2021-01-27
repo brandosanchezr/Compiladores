@@ -308,5 +308,78 @@ public class DescensoRecursivo {
        lexic.regresarToken();
        return true;
    }
-   
+   public List<String> First(NodoRegla l){
+       NodoRegla aux;
+       List<String> R = new ArrayList<>();
+       aux = l;
+       if(aux.isTerminal() || (aux.getStr() == "ɛ")){
+           R.add(aux.getStr());
+           return R;
+       }
+       
+       R.clear();
+       for(int i=0; i<ArrReglas.size();i++){
+           if(ArrReglas.get(i).getStrSimb() == aux.getStr())
+           {
+               List<String> c = First(ArrReglas.get(i).getList());
+               if((c.contains("ɛ")) && (aux.siguiente != null)){
+                   c.remove("ɛ");
+                   c.addAll(First(aux.siguiente));
+               }
+               R.addAll(c);
+           }
+       }
+       return R;
+   }
+          // puede regresar List<int(tokens)>
+   public List<String> Follow(String A){
+       List<String> R = new ArrayList<>();
+       List<String> aux =new ArrayList<>();
+       NodoRegla n;
+       String simbInicial ="inicial"; //Obtener inicial de G
+       if(A == simbInicial)
+           R.add("$");
+       for(int i =0; i<ArrReglas.size();i++){
+           n = buscarSimbolo(A,i);
+           if(n== null)
+               continue;
+           if(n.siguiente==null){
+               if(A==ArrReglas.get(i).getStrSimb())
+                   continue;
+               R.addAll(Follow(ArrReglas.get(i).getStrSimb()));
+           }
+           else{
+               aux=First(n.siguiente);
+               if(aux.contains("ɛ")){
+                   aux.remove("ɛ");
+                   R.addAll(aux);
+                   if(A != ArrReglas.get(i).getStrSimb()){
+                       R.addAll(Follow(ArrReglas.get(i).getStrSimb()));
+                   }
+               }
+               else{
+                   R.addAll(aux);
+               }
+           }
+       }
+       return R;
+   }
+   public NodoRegla buscarSimbolo(String A, int indice){
+       boolean finNodos =true;
+       NodoRegla aux =ArrReglas.get(indice).getList();
+       while(finNodos){
+           if(aux==null){
+               finNodos =true;
+           }
+           else{
+               if(A==aux.getStr()){
+                   return aux;
+               }
+               else{
+                   aux=aux.getSiguiente();
+               }
+           }
+       }
+       return null;
+   }
 }
